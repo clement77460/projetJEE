@@ -79,7 +79,7 @@ public class DataSources {
 
         boolean hasSucceed=this.executeQuery(id);
         this.closeConnection();
-        
+        System.out.println(hasSucceed);
         return hasSucceed;
         
     }
@@ -128,13 +128,13 @@ public class DataSources {
     }
     
     private Boolean executeQuery(int id){
-        boolean hasSucceed=false;
         try {
-            hasSucceed=stmt.execute("delete from EMPLOYES where id="+id);
+            stmt.execute("delete from EMPLOYES where id="+id);
+            return true;
         } catch (SQLException ex) {
             Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return hasSucceed;
+        return false;
     }
     
     private void closeConnection(){

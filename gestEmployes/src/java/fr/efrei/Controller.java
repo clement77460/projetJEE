@@ -80,7 +80,7 @@ public class Controller extends HttpServlet {
             input.setLogin(request.getParameter("user"));
             input.setPwd(request.getParameter("password"));
 
-            session.setAttribute("user", input);
+            session.setAttribute("user", input);//peut servir si on affiche son nom au dessus du bouton deconnection
             session.setAttribute("employes", ds.getAllEmployes());
 
             if(input.isCorrect(ds.getAllUsers())){
