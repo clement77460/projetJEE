@@ -18,8 +18,8 @@
                 </div>
                 <!-- /.col-lg-12 -->
                 <div class="col-lg-2">
-                    <i class="fas fa-user"></i>Jaworski Clément 
-                    <button href="#" class="btn btn-light"><i class="fas fa-power-off"></i></button>
+                    <i class="fas fa-user"></i>Votre session est active
+                    <a href="/gestEmployes"><i class="fas fa-power-off"></i></a>
                     
                 </div>
             </div>
