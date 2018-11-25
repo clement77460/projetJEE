@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -50,6 +51,33 @@ public class DataSources {
         }
     }
     
+    public void updateEmploye(Employe employe){
+        this.openConnection();
+        String updateTableSQL = "update EMPLOYES"
+		+ " set NOM=?,PRENOM=?,TELDOM=?,TELPORT=?,TELPRO=?,ADRESSE=?,CODEPOSTAL=?,VILLE=?,EMAIL=?"
+		+ " where id=?";
+        try {
+            PreparedStatement preparedStatement = dbConn.prepareStatement(updateTableSQL);
+            preparedStatement.setString(1,employe.getNom());
+            preparedStatement.setString(2,employe.getPrenom());
+            preparedStatement.setString(3,employe.getTeldom());
+            preparedStatement.setString(4,employe.getTelport());
+            preparedStatement.setString(5,employe.getTelpro());
+            preparedStatement.setString(6,employe.getAdresse());
+            preparedStatement.setString(7,employe.getCodePostal());
+            preparedStatement.setString(8,employe.getVille());
+            preparedStatement.setString(9,employe.getEmail());
+            preparedStatement.setInt(10,employe.getId());
+            preparedStatement .executeUpdate();
+                    
+        } catch (SQLException ex) {
+            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            this.closeConnection();
+        }
+        
+        this.closeConnection();
+    }
+    
     public List<User> getAllUsers(){
         this.openConnection();
         ResultSet rs;
@@ -74,6 +102,37 @@ public class DataSources {
         
     }
     
+    public Employe getSpecificEmploye(int id){
+        this.openConnection();
+        
+        ResultSet rs;
+        Employe emp=new Employe();
+        
+        try {
+            rs= this.setQuery("select * from EMPLOYES where id="+id);
+            
+            rs.next();
+            
+            emp.setId(rs.getInt("id"));
+            emp.setAdresse(rs.getString("ADRESSE"));
+            emp.setCodePostal(rs.getString("CODEPOSTAL"));
+            emp.setEmail(rs.getString("EMAIL"));
+            emp.setNom(rs.getString("NOM"));
+            emp.setPrenom(rs.getString("PRENOM"));
+            emp.setTeldom(rs.getString("TELDOM"));
+            emp.setTelport(rs.getString("TELPORT"));
+            emp.setTelpro(rs.getString("TELPRO"));
+            emp.setVille(rs.getString("VILLE"));
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.closeConnection();
+        return emp;
+        
+    }
+    
     public boolean deleteSpecificEmploye(int id){
         this.openConnection();
 
@@ -82,6 +141,34 @@ public class DataSources {
         System.out.println(hasSucceed);
         return hasSucceed;
         
+    }
+    
+    public boolean insertEmploye(Employe employe){
+        this.openConnection();
+        String insertTableSQL = "INSERT INTO EMPLOYES"
+		+ "( NOM,PRENOM,TELDOM,TELPORT,TELPRO,ADRESSE,CODEPOSTAL,VILLE,EMAIL) VALUES"
+		+ "(?,?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement preparedStatement = dbConn.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1,employe.getNom());
+            preparedStatement.setString(2,employe.getPrenom());
+            preparedStatement.setString(3,employe.getTeldom());
+            preparedStatement.setString(4,employe.getTelport());
+            preparedStatement.setString(5,employe.getTelpro());
+            preparedStatement.setString(6,employe.getAdresse());
+            preparedStatement.setString(7,employe.getCodePostal());
+            preparedStatement.setString(8,employe.getVille());
+            preparedStatement.setString(9,employe.getEmail());
+            preparedStatement .executeUpdate();
+                    
+        } catch (SQLException ex) {
+            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            this.closeConnection();
+            return false;
+        }
+        
+        this.closeConnection();
+        return true;
     }
     
     public List<Employe> getAllEmployes(){
@@ -126,6 +213,7 @@ public class DataSources {
         
         return null;
     }
+  
     
     private Boolean executeQuery(int id){
         try {

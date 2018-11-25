@@ -4,13 +4,13 @@
     Author     : Clément
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
     <body>
         <h1>Login</h1>
+        <!-- /.navbar-top-links -->
         <div class="container">
             <c:if test="${sessionScope.errorMessage !=null}">
                 <div class="alert alert-danger" role="alert">
@@ -19,7 +19,7 @@
                 <c:remove var="errorMessage" scope="session"></c:remove>
             </c:if>
         <div class="row">
-            <div class="col-md-10 col-md-offset-10">
+            <div class="col-md-5 col-md-offset-5">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="panel-title">Login</h3>

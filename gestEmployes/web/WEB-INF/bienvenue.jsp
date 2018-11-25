@@ -13,10 +13,15 @@
 
         <div id="page-wrapper">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-10">
                     <h1 class="page-header">Liste des Employes</h1>
                 </div>
                 <!-- /.col-lg-12 -->
+                <div class="col-lg-2">
+                    <i class="fas fa-user"></i>Jaworski Clément 
+                    <button href="#" class="btn btn-light"><i class="fas fa-power-off"></i></button>
+                    
+                </div>
             </div>
             <!-- /.row -->
             <div class="row">
@@ -47,8 +52,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <form action="./ControllerActionUser" method="POST">                                       
-                                                <c:forEach items="${ employes }" var="employe" >
+                                            <form action="./ControllerActionUser" method="POST">   
+                                                <c:forEach items="${ sessionScope.employes }" var="employe" >
                                                     <tr> 
                                                     <td>  <INPUT TYPE="radio" NAME='radiosSelected' VALUE="${ employe.id }" CHECKED ></td>
                                                     <td><c:out value="${ employe.nom }" /> !</td>
