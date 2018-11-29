@@ -1,5 +1,8 @@
-create database GESTEMPLOYES;
-use GESTEMPLOYES;
+create database projet;
+create user 'adm'@'localhost' IDENTIFIED By 'adm';
+GRANT ALL PRIVILEGES ON projet.* to 'adm'@'localhost';
+
+use projet;
 
 Create TABLE IDENTIFIANTS (LOGIN VARCHAR(32), MDP VARCHAR(32));
 INSERT INTO IDENTIFIANTS (LOGIN, MDP) 
