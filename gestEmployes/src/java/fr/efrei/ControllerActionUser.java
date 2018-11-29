@@ -90,13 +90,15 @@ public class ControllerActionUser extends HttpServlet {
         
         
         boolean hasSucceed=ds.deleteSpecificEmploye(Integer.parseInt(request.getParameter("radiosSelected")));
-        
+
         if(hasSucceed){
             this.redirectToEmployesView(request, response,1);
             
         }
         else{
-            request.getSession().setAttribute("informationMessage",0);
+            
+            request.getSession().setAttribute("typeMessage",0);
+            request.getRequestDispatcher("WEB-INF/bienvenue.jsp").forward(request, response);
         }
     }
     

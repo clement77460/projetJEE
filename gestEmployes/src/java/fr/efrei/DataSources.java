@@ -134,11 +134,11 @@ public class DataSources {
     }
     
     public boolean deleteSpecificEmploye(int id){
-        this.openConnection();
+        if(!this.openConnection())
+            return false;
 
         boolean hasSucceed=this.executeQuery(id);
         this.closeConnection();
-        System.out.println(hasSucceed);
         return hasSucceed;
         
     }
@@ -178,7 +178,8 @@ public class DataSources {
         this.openConnection();
         
         ResultSet rs;
-        List<Employe> ids=new ArrayList<Employe>();
+        List<Employe> ids;
+        ids = new ArrayList<Employe>();
         
         try {
             rs= this.setQuery("select * from EMPLOYES");
@@ -218,7 +219,7 @@ public class DataSources {
     }
   
     
-    private Boolean executeQuery(int id){
+    private boolean executeQuery(int id){
         try {
             stmt.execute("delete from EMPLOYES where id="+id);
             return true;
