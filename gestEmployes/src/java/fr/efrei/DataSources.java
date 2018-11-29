@@ -144,7 +144,9 @@ public class DataSources {
     }
     
     public boolean insertEmploye(Employe employe){
-        this.openConnection();
+        if(!this.openConnection())
+            return false;
+        
         String insertTableSQL = "INSERT INTO EMPLOYES"
 		+ "( NOM,PRENOM,TELDOM,TELPORT,TELPRO,ADRESSE,CODEPOSTAL,VILLE,EMAIL) VALUES"
 		+ "(?,?,?,?,?,?,?,?,?)";
@@ -164,6 +166,7 @@ public class DataSources {
         } catch (SQLException ex) {
             Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
             this.closeConnection();
+            System.out.println("lol");
             return false;
         }
         
@@ -221,8 +224,9 @@ public class DataSources {
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        return false;
+        
     }
     
     private void closeConnection(){
@@ -235,12 +239,14 @@ public class DataSources {
         }
     }
     
-    private void openConnection(){
+    private boolean openConnection(){
         try {
             this.dbConn= DriverManager.getConnection(prop.getProperty("dbUrl"),prop.getProperty("dbUser"),prop.getProperty("dbPwd"));
             this.stmt= dbConn.createStatement();
+            return true;
         } catch (SQLException ex) {
             Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
     

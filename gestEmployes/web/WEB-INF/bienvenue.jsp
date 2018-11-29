@@ -50,6 +50,7 @@
 
                         </div>
                         <!-- /.panel-heading -->
+                        <form action="./ControllerActionUser" method="POST">  
                         <c:choose>
                             <c:when test="${sessionScope.employes.size() !=0}">
 
@@ -71,7 +72,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <form action="./ControllerActionUser" method="POST">   
+                                             
                                                 <c:forEach items="${ sessionScope.employes }" var="employe" >
                                                     <tr> 
                                                     <td>  <INPUT TYPE="radio" NAME='radiosSelected' VALUE="${ employe.id }" CHECKED ></td>
