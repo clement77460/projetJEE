@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static fr.efrei.Constants.*;
 /**
  *
  * @author Clément
@@ -147,11 +148,9 @@ public class DataSources {
         if(!this.openConnection())
             return false;
         
-        String insertTableSQL = "INSERT INTO EMPLOYES"
-		+ "( NOM,PRENOM,TELDOM,TELPORT,TELPRO,ADRESSE,CODEPOSTAL,VILLE,EMAIL) VALUES"
-		+ "(?,?,?,?,?,?,?,?,?)";
+        
         try {
-            PreparedStatement preparedStatement = dbConn.prepareStatement(insertTableSQL);
+            PreparedStatement preparedStatement = dbConn.prepareStatement(insertRequest);
             preparedStatement.setString(1,employe.getNom());
             preparedStatement.setString(2,employe.getPrenom());
             preparedStatement.setString(3,employe.getTeldom());
@@ -166,7 +165,7 @@ public class DataSources {
         } catch (SQLException ex) {
             Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
             this.closeConnection();
-            System.out.println("lol");
+            
             return false;
         }
         
