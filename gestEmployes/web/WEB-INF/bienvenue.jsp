@@ -25,6 +25,25 @@
             </div>
             <!-- /.row -->
             <div class="row">
+                
+                <c:choose>
+                    <c:when test="${sessionScope.typeMessage ==0}">
+                        <div class="alert alert-danger" role="alert">
+                            <p> La suppression a échoué !</p>
+                        </div>
+                    </c:when>
+                    
+                    <c:when test="${sessionScope.typeMessage ==1}">
+                        <div class="alert alert-primary" role="alert">
+                            <p> La suppression a réussi !</p>
+                        </div>
+                    </c:when>
+                    
+                    <c:otherwise>
+                         
+                    </c:otherwise>
+                </c:choose>
+                
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">

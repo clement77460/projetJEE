@@ -21,6 +21,11 @@ public class ControllerActionUser extends HttpServlet {
     private final DataSources ds=new DataSources();
     private int actionChoosed; //0 -> ajouter ... 1->update
     
+    
+    //0 -> error MSG en rouge pour bienvenue.jsp et employeView.jsp
+    //1 -> Information msg en bleu pour bienvenue.jsp
+    //2 -> On affiche plus rien
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -30,10 +35,7 @@ public class ControllerActionUser extends HttpServlet {
                     break;
                     
                 case "Ajouter":
-                    this.actionChoosed=0;
-                    request.getSession().setAttribute("employe",null);
-                    request.getSession().setAttribute("actionChoosed",actionChoosed);
-                    request.getRequestDispatcher("WEB-INF/employeView.jsp").forward(request, response);
+                    this.redirectToInsertEmployeView(request, response,2);
                     break;
                     
                 case "Details":
@@ -45,7 +47,7 @@ public class ControllerActionUser extends HttpServlet {
                     break;
                 
                 case "Voir liste":
-                    this.redirectToEmployesView(request, response);
+                    this.redirectToEmployesView(request, response,2);
                     break;
         }
     }
@@ -90,9 +92,11 @@ public class ControllerActionUser extends HttpServlet {
         boolean hasSucceed=ds.deleteSpecificEmploye(Integer.parseInt(request.getParameter("radiosSelected")));
         
         if(hasSucceed){
-
-            this.redirectToEmployesView(request, response);
+            this.redirectToEmployesView(request, response,1);
             
+        }
+        else{
+            request.getSession().setAttribute("informationMessage",0);
         }
     }
     
@@ -115,12 +119,12 @@ public class ControllerActionUser extends HttpServlet {
         boolean hasSucceed=ds.insertEmploye(this.buildEmploye(request,0));
         
         if(hasSucceed){
-
-            this.redirectToEmployesView(request, response);
+            
+            this.redirectToEmployesView(request, response,2);
             
         }
         else{
-            //display error page
+            this.redirectToInsertEmployeView(request, response, 0);
         }
     }
     
@@ -133,7 +137,7 @@ public class ControllerActionUser extends HttpServlet {
         emp=this.buildEmploye(request, emp.getId()); //changing with input informations
         ds.updateEmploye(emp);
        
-        this.redirectToEmployesView(request, response);
+        this.redirectToEmployesView(request, response,2);
     }
     
     private Employe buildEmploye(HttpServletRequest request,int id){
@@ -145,12 +149,32 @@ public class ControllerActionUser extends HttpServlet {
                                     request.getParameter("mail"));
     }
     
-    private void redirectToEmployesView(HttpServletRequest request, HttpServletResponse response)
+    /**
+    //0 -> error MSG en rouge pour bienvenue.jsp et employeView.jsp
+    //1 -> Information msg en bleu pour bienvenue.jsp
+    //2 -> On affiche plus rien
+    **/
+    private void redirectToEmployesView(HttpServletRequest request, HttpServletResponse response,int typeMessage)
             throws ServletException, IOException{
         
         HttpSession session=request.getSession();
         session.setAttribute("employes", ds.getAllEmployes());
+        request.getSession().setAttribute("typeMessage",typeMessage);
         request.getRequestDispatcher("WEB-INF/bienvenue.jsp").forward(request, response);
         
+    }
+    
+    private void redirectToInsertEmployeView(HttpServletRequest request, HttpServletResponse response,int typeMessage)
+            throws ServletException, IOException{
+        
+        
+        this.actionChoosed=0;
+        
+        HttpSession session=request.getSession();
+        session.setAttribute("employe",null);
+        session.setAttribute("actionChoosed",actionChoosed);
+        session.setAttribute("typeMessage", typeMessage);
+        
+        request.getRequestDispatcher("WEB-INF/employeView.jsp").forward(request, response);
     }
 }
