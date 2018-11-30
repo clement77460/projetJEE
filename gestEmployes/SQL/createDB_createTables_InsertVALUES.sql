@@ -1,8 +1,8 @@
-create database projet;
+create database PROJET;
 create user 'adm'@'localhost' IDENTIFIED By 'adm';
-GRANT ALL PRIVILEGES ON projet.* to 'adm'@'localhost';
+GRANT ALL PRIVILEGES ON PROJET.* to 'adm'@'localhost';
 
-use projet;
+use PROJET;
 
 Create TABLE IDENTIFIANTS (LOGIN VARCHAR(32), MDP VARCHAR(32));
 INSERT INTO IDENTIFIANTS (LOGIN, MDP) 

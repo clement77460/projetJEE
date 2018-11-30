@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static fr.efrei.Constants.*;
 /**
  *
  * @author Clément
@@ -134,22 +135,22 @@ public class DataSources {
     }
     
     public boolean deleteSpecificEmploye(int id){
-        this.openConnection();
+        if(!this.openConnection())
+            return false;
 
         boolean hasSucceed=this.executeQuery(id);
         this.closeConnection();
-        System.out.println(hasSucceed);
         return hasSucceed;
         
     }
     
     public boolean insertEmploye(Employe employe){
-        this.openConnection();
-        String insertTableSQL = "INSERT INTO EMPLOYES"
-		+ "( NOM,PRENOM,TELDOM,TELPORT,TELPRO,ADRESSE,CODEPOSTAL,VILLE,EMAIL) VALUES"
-		+ "(?,?,?,?,?,?,?,?,?)";
+        if(!this.openConnection())
+            return false;
+        
+        
         try {
-            PreparedStatement preparedStatement = dbConn.prepareStatement(insertTableSQL);
+            PreparedStatement preparedStatement = dbConn.prepareStatement(insertRequest);
             preparedStatement.setString(1,employe.getNom());
             preparedStatement.setString(2,employe.getPrenom());
             preparedStatement.setString(3,employe.getTeldom());
@@ -164,6 +165,7 @@ public class DataSources {
         } catch (SQLException ex) {
             Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
             this.closeConnection();
+            
             return false;
         }
         
@@ -175,7 +177,8 @@ public class DataSources {
         this.openConnection();
         
         ResultSet rs;
-        List<Employe> ids=new ArrayList<Employe>();
+        List<Employe> ids;
+        ids = new ArrayList<Employe>();
         
         try {
             rs= this.setQuery("select * from EMPLOYES");
@@ -215,14 +218,15 @@ public class DataSources {
     }
   
     
-    private Boolean executeQuery(int id){
+    private boolean executeQuery(int id){
         try {
             stmt.execute("delete from EMPLOYES where id="+id);
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        return false;
+        
     }
     
     private void closeConnection(){
@@ -235,12 +239,14 @@ public class DataSources {
         }
     }
     
-    private void openConnection(){
+    private boolean openConnection(){
         try {
             this.dbConn= DriverManager.getConnection(prop.getProperty("dbUrl"),prop.getProperty("dbUser"),prop.getProperty("dbPwd"));
             this.stmt= dbConn.createStatement();
+            return true;
         } catch (SQLException ex) {
             Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
     
