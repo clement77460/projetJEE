@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="fr.efrei.User"%>
 
 <!DOCTYPE html>
 <html>
@@ -50,7 +49,7 @@
 
                         </div>
                         <!-- /.panel-heading -->
-                        <form action="./ControllerActionUser" method="POST">  
+                        <form action="/gestEmployes" method="POST">  
                         <c:choose>
                             <c:when test="${sessionScope.employes.size() !=0}">
 
