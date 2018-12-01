@@ -49,7 +49,7 @@
 
                         </div>
                         <!-- /.panel-heading -->
-                        <form method="POST">  
+                        <form method="POST" action="/projetJEEMaven">  
                         <c:choose>
                             <c:when test="${sessionScope.employes.size() !=0}">
 
