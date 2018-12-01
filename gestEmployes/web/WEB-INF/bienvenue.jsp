@@ -50,7 +50,7 @@
 
                         </div>
                         <!-- /.panel-heading -->
-                        <form action="./ControllerActionUser" method="POST">  
+                        <form action="/gestEmployes" method="POST">  
                         <c:choose>
                             <c:when test="${sessionScope.employes.size() !=0}">
 

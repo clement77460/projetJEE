@@ -35,7 +35,7 @@
                                     <input class="form-control" placeholder="Mot de Passe" name="password" type="password" value="">
                                 </div>
                                 
-                                <input class="btn btn-lg btn-success btn-block" type="submit" name="submit" value="Login">
+                                <input class="btn btn-lg btn-success btn-block" type="submit" name="action" value="Login">
                             </fieldset>
                         </form>
                     </div>

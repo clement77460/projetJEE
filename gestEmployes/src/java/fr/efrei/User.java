@@ -7,13 +7,14 @@ package fr.efrei;
 
 import java.util.List;
 
+import static fr.efrei.Constants.EMPTY_STRING;
 /**
  *
  * @author Clément
  */
 public class User {
-    private String login="";
-    private String pwd="";
+    private String login=EMPTY_STRING;
+    private String pwd=EMPTY_STRING;
 
     public User(){
         
@@ -36,7 +37,14 @@ public class User {
     }
     
     public boolean isCorrect(List<User> ids){
-
-        return ids.stream().anyMatch((i) -> (i.getLogin().equals(this.login) && i.getPwd().equals(this.pwd) ));
+        
+        for(User user : ids){
+            if(user.login.equals(this.login) && user.pwd.equals(this.pwd)){
+                return true;
+            }
+        }
+        return false;
+        
+        //return ids.stream().anyMatch((i) -> (i.getLogin().equals(this.login) && i.getPwd().equals(this.pwd) ));
     }
 }

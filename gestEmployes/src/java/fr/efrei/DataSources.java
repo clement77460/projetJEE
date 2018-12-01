@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static fr.efrei.SQLConstants.*;
+import static fr.efrei.SqlFieldsConstants.*;
 import static fr.efrei.Constants.*;
 /**
  *
@@ -54,11 +57,9 @@ public class DataSources {
     
     public void updateEmploye(Employe employe){
         this.openConnection();
-        String updateTableSQL = "update EMPLOYES"
-		+ " set NOM=?,PRENOM=?,TELDOM=?,TELPORT=?,TELPRO=?,ADRESSE=?,CODEPOSTAL=?,VILLE=?,EMAIL=?"
-		+ " where id=?";
+        
         try {
-            PreparedStatement preparedStatement = dbConn.prepareStatement(updateTableSQL);
+            PreparedStatement preparedStatement = dbConn.prepareStatement(UPDATE_TABLE_SQL);
             preparedStatement.setString(1,employe.getNom());
             preparedStatement.setString(2,employe.getPrenom());
             preparedStatement.setString(3,employe.getTeldom());
@@ -70,7 +71,7 @@ public class DataSources {
             preparedStatement.setString(9,employe.getEmail());
             preparedStatement.setInt(10,employe.getId());
             preparedStatement .executeUpdate();
-                    
+            
         } catch (SQLException ex) {
             Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
             this.closeConnection();
@@ -82,16 +83,16 @@ public class DataSources {
     public List<User> getAllUsers(){
         this.openConnection();
         ResultSet rs;
-        List<User> ids=new ArrayList<User>();
+        List<User> ids=new ArrayList<>();
         
         try {
-            rs= this.setQuery("select * from IDENTIFIANTS");
+            rs= this.setQuery(SELECT_ALL_USERS);
             
             User id;
             while(rs.next()){
                 id= new User();
-                id.setLogin(rs.getString("LOGIN"));
-                id.setPwd(rs.getString("MDP"));
+                id.setLogin(rs.getString(IDENTIFIANTS_USER));
+                id.setPwd(rs.getString(IDENTIFIANTS_MDP));
                 ids.add(id);
             }
         } catch (SQLException ex) {
@@ -110,20 +111,20 @@ public class DataSources {
         Employe emp=new Employe();
         
         try {
-            rs= this.setQuery("select * from EMPLOYES where id="+id);
+            rs= this.setPreparedSelectQuery(SELECT_SPECIFIC_EMPLOYE,id);
             
             rs.next();
             
-            emp.setId(rs.getInt("id"));
-            emp.setAdresse(rs.getString("ADRESSE"));
-            emp.setCodePostal(rs.getString("CODEPOSTAL"));
-            emp.setEmail(rs.getString("EMAIL"));
-            emp.setNom(rs.getString("NOM"));
-            emp.setPrenom(rs.getString("PRENOM"));
-            emp.setTeldom(rs.getString("TELDOM"));
-            emp.setTelport(rs.getString("TELPORT"));
-            emp.setTelpro(rs.getString("TELPRO"));
-            emp.setVille(rs.getString("VILLE"));
+            emp.setId(rs.getInt(EMPLOYES_ID));
+            emp.setAdresse(rs.getString(EMPLOYES_ADR));
+            emp.setCodePostal(rs.getString(EMPLOYES_CP));
+            emp.setEmail(rs.getString(EMPLOYES_EMAIL));
+            emp.setNom(rs.getString(EMPLOYES_NOM));
+            emp.setPrenom(rs.getString(EMPLOYES_PRENOM));
+            emp.setTeldom(rs.getString(EMPLOYES_TELDOM));
+            emp.setTelport(rs.getString(EMPLOYES_TELPORT));
+            emp.setTelpro(rs.getString(EMPLOYES_TELPRO));
+            emp.setVille(rs.getString(EMPLOYES_VILLE));
             
         } catch (SQLException ex) {
             Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,7 +139,7 @@ public class DataSources {
         if(!this.openConnection())
             return false;
 
-        boolean hasSucceed=this.executeQuery(id);
+        boolean hasSucceed=this.executePreparedDeleteQuery(DELETE_QUERY_EMPLOYE,id);
         this.closeConnection();
         return hasSucceed;
         
@@ -150,7 +151,7 @@ public class DataSources {
         
         
         try {
-            PreparedStatement preparedStatement = dbConn.prepareStatement(insertRequest);
+            PreparedStatement preparedStatement = dbConn.prepareStatement(INSERT_REQUEST);
             preparedStatement.setString(1,employe.getNom());
             preparedStatement.setString(2,employe.getPrenom());
             preparedStatement.setString(3,employe.getTeldom());
@@ -177,25 +178,24 @@ public class DataSources {
         this.openConnection();
         
         ResultSet rs;
-        List<Employe> ids;
-        ids = new ArrayList<Employe>();
+        List<Employe> ids = new ArrayList<>();
         
         try {
-            rs= this.setQuery("select * from EMPLOYES");
+            rs= this.setQuery(SELECT_ALL_EMPLOYES);
             
             Employe id;
             while(rs.next()){
                 id= new Employe();
-                id.setId(rs.getInt("id"));
-                id.setAdresse(rs.getString("ADRESSE"));
-                id.setCodePostal(rs.getString("CODEPOSTAL"));
-                id.setEmail(rs.getString("EMAIL"));
-                id.setNom(rs.getString("NOM"));
-                id.setPrenom(rs.getString("PRENOM"));
-                id.setTeldom(rs.getString("TELDOM"));
-                id.setTelport(rs.getString("TELPORT"));
-                id.setTelpro(rs.getString("TELPRO"));
-                id.setVille(rs.getString("VILLE"));
+                id.setId(rs.getInt(EMPLOYES_ID));
+                id.setAdresse(rs.getString(EMPLOYES_ADR));
+                id.setCodePostal(rs.getString(EMPLOYES_CP));
+                id.setEmail(rs.getString(EMPLOYES_EMAIL));
+                id.setNom(rs.getString(EMPLOYES_NOM));
+                id.setPrenom(rs.getString(EMPLOYES_PRENOM));
+                id.setTeldom(rs.getString(EMPLOYES_TELDOM));
+                id.setTelport(rs.getString(EMPLOYES_TELPORT));
+                id.setTelpro(rs.getString(EMPLOYES_TELPRO));
+                id.setVille(rs.getString(EMPLOYES_VILLE));
                 ids.add(id);
             }
         } catch (SQLException ex) {
@@ -217,10 +217,25 @@ public class DataSources {
         return null;
     }
   
-    
-    private boolean executeQuery(int id){
+    private ResultSet setPreparedSelectQuery(String query,int id){
         try {
-            stmt.execute("delete from EMPLOYES where id="+id);
+            PreparedStatement preparedStatement = dbConn.prepareStatement(query);
+            preparedStatement.setInt(1,id);
+            
+            return preparedStatement.executeQuery();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            
+            return null;
+        }  
+    }
+    
+    private boolean executePreparedDeleteQuery(String request,int id){
+        try {
+            PreparedStatement preparedStatement = dbConn.prepareStatement(request);
+            preparedStatement.setInt(1,id);
+            preparedStatement.execute();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
@@ -241,7 +256,7 @@ public class DataSources {
     
     private boolean openConnection(){
         try {
-            this.dbConn= DriverManager.getConnection(prop.getProperty("dbUrl"),prop.getProperty("dbUser"),prop.getProperty("dbPwd"));
+            this.dbConn= DriverManager.getConnection(prop.getProperty(DB_URL_PROPERTIES),prop.getProperty(DB_USER_PROPERTIES),prop.getProperty(DB_PASS_PROPERTIES));
             this.stmt= dbConn.createStatement();
             return true;
         } catch (SQLException ex) {
@@ -252,7 +267,7 @@ public class DataSources {
     
     private void initClassLoader(){
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName(DRIVER_MYSQL).newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
         }
