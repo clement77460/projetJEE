@@ -22,7 +22,7 @@ public final class Constants {
     public final static String ACTION_AJOUTER="Ajouter";
     public final static String ACTION_DETAILS="Details";
     public final static String ACTION_VALIDER="Valider";
-    public final static String ACTION_GET_LIST="Voir liste ";
+    public final static String ACTION_GET_LIST="Voir liste";
     
     
     public final static String EMPLOYES="employes";

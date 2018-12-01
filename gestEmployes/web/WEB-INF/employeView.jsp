@@ -30,7 +30,7 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-         <form>
+         <form method="POST" action="/gestEmployes">
             <div class="form-group row">
               <label class="col-sm-1 col-form-label">Nom</label>
               <div class="col-sm-11">
