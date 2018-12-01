@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.efrei;
+package fr.efrei.model;
 
 
 import java.io.IOException;
@@ -20,9 +20,9 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static fr.efrei.SQLConstants.*;
-import static fr.efrei.SqlFieldsConstants.*;
-import static fr.efrei.Constants.*;
+import static fr.efrei.constants.SQLConstants.*;
+import static fr.efrei.constants.SqlFieldsConstants.*;
+import static fr.efrei.constants.Constants.*;
 /**
  *
  * @author Clément

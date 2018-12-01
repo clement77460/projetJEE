@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.efrei;
+package fr.efrei.controller;
 
+import fr.efrei.model.DataSources;
+import fr.efrei.model.Employe;
+import fr.efrei.model.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static fr.efrei.Constants.*; //import des constantes de type action
-import static fr.efrei.PathConstants.*; //import des constantes de type chemins
+import static fr.efrei.constants.Constants.*; //import des constantes de type action
+import static fr.efrei.constants.PathConstants.*; //import des constantes de type chemins
 
 /**
  *

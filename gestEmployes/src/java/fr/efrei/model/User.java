@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.efrei;
+package fr.efrei.model;
 
 import java.util.List;
 
-import static fr.efrei.Constants.EMPTY_STRING;
+import static fr.efrei.constants.Constants.EMPTY_STRING;
 /**
  *
  * @author Clément
