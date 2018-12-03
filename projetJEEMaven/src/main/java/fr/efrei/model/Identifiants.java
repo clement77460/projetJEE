@@ -6,52 +6,53 @@
 package fr.efrei.model;
 
 import java.io.Serializable;
-import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Clément
  */
 @Entity
+@Table(name = "IDENTIFIANTS")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Identifiants.findAll", query = "SELECT i FROM Identifiants i")
+    , @NamedQuery(name = "Identifiants.findByLogin", query = "SELECT i FROM Identifiants i WHERE i.identifiantsPK.login = :login")
+    , @NamedQuery(name = "Identifiants.findByMdp", query = "SELECT i FROM Identifiants i WHERE i.identifiantsPK.mdp = :mdp")})
 public class Identifiants implements Serializable {
 
-    @Id
-    @Column(name="LOGIN",nullable=false)
-    private String id;
-    
-    @Column(name="MDP",nullable=false)
-    private String password;
+    private static final long serialVersionUID = 1L;
+    @EmbeddedId
+    protected IdentifiantsPK identifiantsPK;
 
     public Identifiants() {
     }
 
-    public String getPassword() {
-        return password;
+    public Identifiants(IdentifiantsPK identifiantsPK) {
+        this.identifiantsPK = identifiantsPK;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public Identifiants(String login, String mdp) {
+        this.identifiantsPK = new IdentifiantsPK(login, mdp);
     }
 
-    public Identifiants(String id, String password) {
-        this.id = id;
-        this.password = password;
-    }
-    
-    public String getId() {
-        return id;
+    public IdentifiantsPK getIdentifiantsPK() {
+        return identifiantsPK;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdentifiantsPK(IdentifiantsPK identifiantsPK) {
+        this.identifiantsPK = identifiantsPK;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (identifiantsPK != null ? identifiantsPK.hashCode() : 0);
         return hash;
     }
 
@@ -62,7 +63,7 @@ public class Identifiants implements Serializable {
             return false;
         }
         Identifiants other = (Identifiants) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.identifiantsPK == null && other.identifiantsPK != null) || (this.identifiantsPK != null && !this.identifiantsPK.equals(other.identifiantsPK))) {
             return false;
         }
         return true;
@@ -70,7 +71,7 @@ public class Identifiants implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.efrei.model.Identifiants[ id=" + id + " ]";
+        return "fr.efrei.model.Identifiants[ identifiantsPK=" + identifiantsPK + " ]";
     }
     
 }

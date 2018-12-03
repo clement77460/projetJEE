@@ -5,7 +5,12 @@ fr\efrei\model\DataSources.class
 fr\efrei\model\User.class
 fr\efrei\constants\SQLConstants.class
 fr\efrei\controller\Controller.class
+fr\efrei\model\Employes_.class
 fr\efrei\model\Identifiants.class
+fr\efrei\model\IdentifiantsPK_.class
 fr\efrei\model\dao\IdentifiantsDao.class
 fr\efrei\model\dao\IdentifiantsDaoLocal.class
+fr\efrei\model\Identifiants_.class
+fr\efrei\model\IdentifiantsPK.class
+fr\efrei\model\Employes.class
 fr\efrei\constants\Constants.class

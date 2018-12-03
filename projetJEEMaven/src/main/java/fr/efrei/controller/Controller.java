@@ -17,14 +17,19 @@ import javax.servlet.http.HttpSession;
 
 import static fr.efrei.constants.Constants.*; //import des constantes de type action
 import static fr.efrei.constants.PathConstants.*; //import des constantes de type chemins
+import fr.efrei.model.dao.IdentifiantsDao;
+import fr.efrei.model.dao.IdentifiantsDaoLocal;
+import javax.ejb.EJB;
 
 /**
  *
  * @author Clément
  */
 public class Controller extends HttpServlet {
-    
+    @EJB
+    private IdentifiantsDaoLocal identifiantsDao;
     private final DataSources ds=new DataSources();
+    
     
     private int actionChoosed; //0 -> ajouter ... 1->update
     
@@ -95,7 +100,9 @@ public class Controller extends HttpServlet {
         
         
         HttpSession session=request.getSession();
-
+        System.out.println("looool");
+        System.out.println(identifiantsDao.getIdentifiants(request.getParameter(USER),request.getParameter(PASSWORD)));
+        
         if(request.getParameter(USER).equals(EMPTY_STRING) || request.getParameter(PASSWORD).equals(EMPTY_STRING)){
             
             session.setAttribute(ERROR_MESSAGE, ERROR_MESSAGE_FILL_ALL);

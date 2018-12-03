@@ -15,6 +15,6 @@ import javax.ejb.Local;
 @Local
 public interface IdentifiantsDaoLocal {
 
-    Identifiants getIdentifiants(String id);
+    Identifiants getIdentifiants(String id,String mpd);
     
 }
