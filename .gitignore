@@ -24,3 +24,4 @@ hs_err_pid*
 /gestEmployes/nbproject/private/
 /gestEmployes/build/
 gestEmployes/src/java/fr/efrei/db\.properties
+/gestEmployes/dist/
