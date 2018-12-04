@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.efrei.model;
+package fr.efrei.model.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +15,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -25,71 +22,50 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "EMPLOYES")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Employes.findAll", query = "SELECT e FROM Employes e")
-    , @NamedQuery(name = "Employes.findById", query = "SELECT e FROM Employes e WHERE e.id = :id")
-    , @NamedQuery(name = "Employes.findByNom", query = "SELECT e FROM Employes e WHERE e.nom = :nom")
-    , @NamedQuery(name = "Employes.findByPrenom", query = "SELECT e FROM Employes e WHERE e.prenom = :prenom")
-    , @NamedQuery(name = "Employes.findByTeldom", query = "SELECT e FROM Employes e WHERE e.teldom = :teldom")
-    , @NamedQuery(name = "Employes.findByTelport", query = "SELECT e FROM Employes e WHERE e.telport = :telport")
-    , @NamedQuery(name = "Employes.findByTelpro", query = "SELECT e FROM Employes e WHERE e.telpro = :telpro")
-    , @NamedQuery(name = "Employes.findByAdresse", query = "SELECT e FROM Employes e WHERE e.adresse = :adresse")
-    , @NamedQuery(name = "Employes.findByCodepostal", query = "SELECT e FROM Employes e WHERE e.codepostal = :codepostal")
-    , @NamedQuery(name = "Employes.findByVille", query = "SELECT e FROM Employes e WHERE e.ville = :ville")
-    , @NamedQuery(name = "Employes.findByEmail", query = "SELECT e FROM Employes e WHERE e.email = :email")})
+    @NamedQuery(name = "Employes.findAll", query = "SELECT i FROM Employes i")})
 public class Employes implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
+    
     @NotNull
-    @Size(min = 1, max = 25)
     @Column(name = "NOM")
     private String nom;
-    @Basic(optional = false)
+    
     @NotNull
-    @Size(min = 1, max = 25)
     @Column(name = "PRENOM")
     private String prenom;
-    @Basic(optional = false)
+    
     @NotNull
-    @Size(min = 1, max = 10)
     @Column(name = "TELDOM")
     private String teldom;
-    @Basic(optional = false)
+    
     @NotNull
-    @Size(min = 1, max = 10)
     @Column(name = "TELPORT")
     private String telport;
-    @Basic(optional = false)
+    
     @NotNull
-    @Size(min = 1, max = 10)
     @Column(name = "TELPRO")
     private String telpro;
-    @Basic(optional = false)
+    
     @NotNull
-    @Size(min = 1, max = 150)
     @Column(name = "ADRESSE")
     private String adresse;
-    @Basic(optional = false)
+    
     @NotNull
-    @Size(min = 1, max = 5)
     @Column(name = "CODEPOSTAL")
     private String codepostal;
-    @Basic(optional = false)
+    
     @NotNull
-    @Size(min = 1, max = 25)
     @Column(name = "VILLE")
     private String ville;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
+
     @NotNull
-    @Size(min = 1, max = 25)
     @Column(name = "EMAIL")
     private String email;
 

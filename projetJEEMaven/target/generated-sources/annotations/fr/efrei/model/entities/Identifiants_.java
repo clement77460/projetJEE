@@ -1,11 +1,11 @@
-package fr.efrei.model;
+package fr.efrei.model.entities;
 
-import fr.efrei.model.IdentifiantsPK;
+import fr.efrei.model.entities.IdentifiantsPK;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-03T21:58:10")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-04T20:23:30")
 @StaticMetamodel(Identifiants.class)
 public class Identifiants_ { 
 

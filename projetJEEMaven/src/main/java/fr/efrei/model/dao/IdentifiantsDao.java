@@ -6,11 +6,11 @@
 package fr.efrei.model.dao;
 
 
-import fr.efrei.model.Identifiants;
+import fr.efrei.model.entities.Identifiants;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import fr.efrei.model.IdentifiantsPK;
+import fr.efrei.model.entities.IdentifiantsPK;
 /**
  *
  * @author Clément

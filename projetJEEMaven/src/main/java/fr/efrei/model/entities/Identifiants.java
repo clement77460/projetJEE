@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.efrei.model;
+package fr.efrei.model.entities;
 
 import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -19,14 +16,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "IDENTIFIANTS")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Identifiants.findAll", query = "SELECT i FROM Identifiants i")
-    , @NamedQuery(name = "Identifiants.findByLogin", query = "SELECT i FROM Identifiants i WHERE i.identifiantsPK.login = :login")
-    , @NamedQuery(name = "Identifiants.findByMdp", query = "SELECT i FROM Identifiants i WHERE i.identifiantsPK.mdp = :mdp")})
 public class Identifiants implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected IdentifiantsPK identifiantsPK;
 

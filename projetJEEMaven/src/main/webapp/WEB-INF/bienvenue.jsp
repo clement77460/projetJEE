@@ -81,7 +81,7 @@
                                                     <td><c:out value="${ employe.telport }" /> !</td>
                                                     <td><c:out value="${ employe.telpro }" /> !</td>
                                                     <td><c:out value="${ employe.adresse }" /> !</td>
-                                                    <td><c:out value="${ employe.codePostal }" /> !</td>
+                                                    <td><c:out value="${ employe.codepostal }" /> !</td>
                                                     <td><c:out value="${ employe.ville }" /> !</td>
                                                     <td><c:out value="${ employe.email }" /> !</td>
                                                     </tr>

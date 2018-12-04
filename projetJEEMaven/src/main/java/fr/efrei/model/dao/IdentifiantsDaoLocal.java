@@ -5,7 +5,7 @@
  */
 package fr.efrei.model.dao;
 
-import fr.efrei.model.Identifiants;
+import fr.efrei.model.entities.Identifiants;
 import javax.ejb.Local;
 
 /**

@@ -5,9 +5,7 @@
  */
 package fr.efrei.controller;
 
-import fr.efrei.model.DataSources;
-import fr.efrei.model.Employe;
-import fr.efrei.model.User;
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +15,10 @@ import javax.servlet.http.HttpSession;
 
 import static fr.efrei.constants.Constants.*; //import des constantes de type action
 import static fr.efrei.constants.PathConstants.*; //import des constantes de type chemins
-import fr.efrei.model.dao.IdentifiantsDao;
+import fr.efrei.model.dao.EmployesDaoLocal;
 import fr.efrei.model.dao.IdentifiantsDaoLocal;
+import fr.efrei.model.entities.Employes;
+import fr.efrei.model.entities.Identifiants;
 import javax.ejb.EJB;
 
 /**
@@ -28,9 +28,9 @@ import javax.ejb.EJB;
 public class Controller extends HttpServlet {
     @EJB
     private IdentifiantsDaoLocal identifiantsDao;
-    private final DataSources ds=new DataSources();
-    
-    
+    @EJB
+    private EmployesDaoLocal employesDao;
+
     private int actionChoosed; //0 -> ajouter ... 1->update
     
     //0 -> error MSG en rouge pour bienvenue.jsp et employeView.jsp
@@ -100,8 +100,7 @@ public class Controller extends HttpServlet {
         
         
         HttpSession session=request.getSession();
-        System.out.println("looool");
-        System.out.println(identifiantsDao.getIdentifiants(request.getParameter(USER),request.getParameter(PASSWORD)));
+        
         
         if(request.getParameter(USER).equals(EMPTY_STRING) || request.getParameter(PASSWORD).equals(EMPTY_STRING)){
             
@@ -109,15 +108,13 @@ public class Controller extends HttpServlet {
             request.getRequestDispatcher(INDEX_PATH).forward(request, response);
             
         }else{
-            User input = new User();
             
-            input.setLogin(request.getParameter(USER));
-            input.setPwd(request.getParameter(PASSWORD));
+            Identifiants identifiant=identifiantsDao.getIdentifiants(request.getParameter(USER),request.getParameter(PASSWORD));
             
-            session.setAttribute(USER, input);//peut servir si on affiche son nom au dessus du bouton deconnection
-            session.setAttribute(EMPLOYES, ds.getAllEmployes());
 
-            if(input.isCorrect(ds.getAllUsers())){
+            if(identifiant!=null){
+                session.setAttribute(USER, identifiant);
+                session.setAttribute(EMPLOYES,employesDao.getAllEmployes() );
                 request.getRequestDispatcher(WELCOME_PATH).forward(request, response);
             }
             else{
@@ -141,11 +138,15 @@ public class Controller extends HttpServlet {
         }
     }
     
+    
+    //rajouter la gestion d'erreur ici 
+    //Plus prise en compte à cause de JPA
     private void toDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        
-        boolean hasSucceed=ds.deleteSpecificEmploye(Integer.parseInt(request.getParameter(RADIOS_VALUE)));
+        boolean hasSucceed=true; //cette valeur a remplacer
+        employesDao.deleteSpecificEmploye(Integer.parseInt(request.getParameter(RADIOS_VALUE)));
+        //boolean hasSucceed=ds.deleteSpecificEmploye(Integer.parseInt(request.getParameter(RADIOS_VALUE)));
 
         if(hasSucceed){
             this.redirectToEmployesView(request, response,1);
@@ -164,17 +165,19 @@ public class Controller extends HttpServlet {
         HttpSession session=request.getSession();
         
         this.actionChoosed=1;
-        session.setAttribute(EMPLOYE, ds.getSpecificEmploye(Integer.parseInt(request.getParameter("radiosSelected"))));
+        session.setAttribute(EMPLOYE, employesDao.getEmploye(Integer.parseInt(request.getParameter("radiosSelected"))));
         session.setAttribute(ACTION_CHOOSED,this.actionChoosed);
         request.getRequestDispatcher(EMPLOYE_VIEW).forward(request, response);
         
     }
     
+    //rajouter la gestion d'erreur ici 
+    //Plus prise en compte à cause de JPA
     private void toInsert(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
-        
-        boolean hasSucceed=ds.insertEmploye(this.buildEmploye(request,0));
+        boolean hasSucceed=true;
+        employesDao.insertEmploye(this.buildEmploye(request,0));
         
         if(hasSucceed){
             
@@ -190,17 +193,18 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session=request.getSession();
-        Employe emp=(Employe)session.getAttribute(EMPLOYE); //get id from emp
+        Employes emp=(Employes)session.getAttribute(EMPLOYE); //get id from emp
         
-        emp=this.buildEmploye(request, emp.getId()); //changing with input informations
-        ds.updateEmploye(emp);
+        
+        employesDao.updateEmploye(this.buildEmploye(request, emp.getId()));
+
        
         this.redirectToEmployesView(request, response,2);
     }
     
-    private Employe buildEmploye(HttpServletRequest request,int id){
+    private Employes buildEmploye(HttpServletRequest request,int id){
         
-        return new Employe(id,request.getParameter(EMPLOYE_NOM),request.getParameter(EMPLOYE_PRENOM),
+        return new Employes(id,request.getParameter(EMPLOYE_NOM),request.getParameter(EMPLOYE_PRENOM),
                                     request.getParameter(EMPLOYE_TEL_DOM),request.getParameter(EMPLOYE_TEL_MOB),
                                     request.getParameter(EMPLOYE_TEL_PRO),request.getParameter(EMPLOYE_ADR),
                                     request.getParameter(EMPLOYE_CP),request.getParameter(EMPLOYE_VILLE),
@@ -212,7 +216,7 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException{
         
         HttpSession session=request.getSession();
-        session.setAttribute(EMPLOYES, ds.getAllEmployes());
+        session.setAttribute(EMPLOYES, employesDao.getAllEmployes());
         request.getSession().setAttribute(TYPE_MESSAGE,typeMessage);
         request.getRequestDispatcher(WELCOME_PATH).forward(request, response);
         
