@@ -1,7 +1,5 @@
 fr\efrei\constants\SqlFieldsConstants.class
 fr\efrei\constants\PathConstants.class
-fr\efrei\model\Employe.class
-fr\efrei\model\DataSources.class
 fr\efrei\constants\SQLConstants.class
 fr\efrei\model\entities\Employes.class
 fr\efrei\model\dao\EmployesDao.class

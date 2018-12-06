@@ -30,7 +30,7 @@ public class Controller extends HttpServlet {
     private IdentifiantsDaoLocal identifiantsDao;
     @EJB
     private EmployesDaoLocal employesDao;
-
+    
     private int actionChoosed; //0 -> ajouter ... 1->update
     
     //0 -> error MSG en rouge pour bienvenue.jsp et employeView.jsp
@@ -39,6 +39,8 @@ public class Controller extends HttpServlet {
         
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
         
         String actionToProceed=EMPTY_STRING;
         if(request.getParameter(ACTION)!=null){
@@ -144,10 +146,15 @@ public class Controller extends HttpServlet {
     private void toDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        boolean hasSucceed=true; //cette valeur a remplacer
-        employesDao.deleteSpecificEmploye(Integer.parseInt(request.getParameter(RADIOS_VALUE)));
-        //boolean hasSucceed=ds.deleteSpecificEmploye(Integer.parseInt(request.getParameter(RADIOS_VALUE)));
-
+        
+        boolean hasSucceed=true;
+        
+        try{
+            employesDao.deleteSpecificEmploye(Integer.parseInt(request.getParameter(RADIOS_VALUE)));
+            //boolean hasSucceed=ds.deleteSpecificEmploye(Integer.parseInt(request.getParameter(RADIOS_VALUE)));
+        }catch(javax.ejb.EJBException e){
+                hasSucceed=false;
+        }    
         if(hasSucceed){
             this.redirectToEmployesView(request, response,1);
             
@@ -234,6 +241,9 @@ public class Controller extends HttpServlet {
         session.setAttribute(TYPE_MESSAGE, typeMessage);
         
         request.getRequestDispatcher(EMPLOYE_VIEW).forward(request, response);
+    }
+    
+    private void checkSessionBeanStatus(){
     }
 
         
