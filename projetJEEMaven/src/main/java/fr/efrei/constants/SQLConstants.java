@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.efrei.constants;
 
 /**
@@ -10,19 +5,28 @@ package fr.efrei.constants;
  * @author Clément
  */
 public final class SQLConstants {
+   
+    //TABLE IDENTIFIANTS
+    public final static String TABLE_IDENTIFIANTS="IDENTIFIANTS";
+    public final static String LOGIN="LOGIN";
+    public final static String MDP="MDP";
     
-    public final static String INSERT_REQUEST="INSERT INTO EMPLOYES" 
-		+ "( NOM,PRENOM,TELDOM,TELPORT,TELPRO,ADRESSE,CODEPOSTAL,VILLE,EMAIL) VALUES " 
-		+ "(?,?,?,?,?,?,?,?,?)";
+    //TABLE EMPLOYES
+    public final static String TABLE_EMPLOYES="EMPLOYES";
+    public final static String ID="id";
+    public final static String NOM="NOM";
+    public final static String PRENOM="PRENOM";
+    public final static String TELDOM="TELDOM";
+    public final static String TELPORT="TELPORT";
+    public final static String TELPRO="TELPRO";
+    public final static String ADRESSE="ADRESSE";
+    public final static String CODEPOSTAL="CODEPOSTAL";
+    public final static String VILLE="VILLE";
+    public final static String EMAIL="EMAIL";
     
-    public final static String UPDATE_TABLE_SQL = "update EMPLOYES"
-		+ " set NOM=?,PRENOM=?,TELDOM=?,TELPORT=?,TELPRO=?,ADRESSE=?,CODEPOSTAL=?,VILLE=?,EMAIL=?"
-		+ " where id=?";
-    
-    public final static String DELETE_QUERY_EMPLOYE="delete from EMPLOYES where id=?";
-    
-    public final static String SELECT_ALL_USERS="select * from IDENTIFIANTS";
-    public final static String SELECT_ALL_EMPLOYES="select * from EMPLOYES";
-    public final static String SELECT_SPECIFIC_EMPLOYE="select * from EMPLOYES where id=?";
+    //QUERY
+    public final static String NAME_QUERY_FIND_ALL_EMPLOYES="Employes.findAll";
+    public final static String QUERY_FIND_ALL_EMPLOYES="SELECT i FROM Employes i";
+   
     
 }

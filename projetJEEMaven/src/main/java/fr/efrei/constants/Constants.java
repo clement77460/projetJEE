@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.efrei.constants;
 
 /**
@@ -23,6 +18,7 @@ public final class Constants {
     public final static String ACTION_DETAILS="Details";
     public final static String ACTION_VALIDER="Valider";
     public final static String ACTION_GET_LIST="Voir liste";
+    public final static String ACTION_DISCONNECT="disconnect";
     
     
     public final static String EMPLOYES="employes";
@@ -49,11 +45,9 @@ public final class Constants {
     
     public final static String RADIOS_VALUE="radiosSelected";
     
-    public final static String DB_URL_PROPERTIES="dbUrl";
-    public final static String DB_USER_PROPERTIES="dbUser";
-    public final static String DB_PASS_PROPERTIES="dbPwd";
+    public final static String UNIT_NAME="fr.efrei_projetJEEMaven_war_1.0-SNAPSHOTPU";
     
-    public final static String DRIVER_MYSQL="com.mysql.jdbc.Driver";
+
     
     
     

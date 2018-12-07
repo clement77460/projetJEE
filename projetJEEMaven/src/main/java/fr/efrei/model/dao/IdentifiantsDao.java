@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.efrei.model.dao;
 
 
+import static fr.efrei.constants.Constants.UNIT_NAME;
 import fr.efrei.model.entities.Identifiants;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,7 +13,7 @@ import fr.efrei.model.entities.IdentifiantsPK;
  */
 @Stateless
 public class IdentifiantsDao implements IdentifiantsDaoLocal {
-    @PersistenceContext(unitName="fr.efrei_projetJEEMaven_war_1.0-SNAPSHOTPU")
+    @PersistenceContext(unitName=UNIT_NAME)
     private EntityManager em;
     
     @Override
@@ -26,6 +22,4 @@ public class IdentifiantsDao implements IdentifiantsDaoLocal {
        
     }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
 }

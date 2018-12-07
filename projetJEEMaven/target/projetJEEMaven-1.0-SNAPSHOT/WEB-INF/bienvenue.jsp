@@ -1,7 +1,7 @@
 <%-- 
-    Document   : bienvenue
-    Created on : 8 nov. 2018, 08:25:38
-    Author     : LUCASMasson
+    Document   : aurevoir
+    Created on : 7 déc. 2018, 10:54:15
+    Author     : Clément
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,15 +12,11 @@
 
         <div id="page-wrapper">
             <div class="row">
-                <div class="col-lg-10">
+                <div class="col-lg-9">
                     <h1 class="page-header">Liste des Employes</h1>
                 </div>
                 <!-- /.col-lg-12 -->
-                <div class="col-lg-2">
-                    <i class="fas fa-user"></i>Votre session est active
-                    <a href="/projetJEEMaven"><i class="fas fa-power-off"></i></a>
-                    
-                </div>
+                <jsp:include page="disconnectForm.jsp"/>
             </div>
             <!-- /.row -->
             <div class="row">

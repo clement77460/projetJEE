@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.efrei.model.entities;
+
+
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -12,6 +9,7 @@ import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import static fr.efrei.constants.SQLConstants.*;
 /**
  *
  * @author Clément
@@ -22,12 +20,13 @@ public class IdentifiantsPK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
-    @Column(name = "LOGIN")
+    @Column(name = LOGIN)
     private String login;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
-    @Column(name = "MDP")
+    @Column(name = MDP)
     private String mdp;
 
     public IdentifiantsPK() {

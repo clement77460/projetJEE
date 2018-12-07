@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.efrei.model.dao;
 
+import static fr.efrei.constants.Constants.UNIT_NAME;
+import static fr.efrei.constants.SQLConstants.NAME_QUERY_FIND_ALL_EMPLOYES;
 import fr.efrei.model.entities.Employes;
 import java.util.List;
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -21,18 +15,14 @@ import javax.persistence.Query;
  */
 @Stateless
 public class EmployesDao implements EmployesDaoLocal {
-    @PersistenceContext(unitName="fr.efrei_projetJEEMaven_war_1.0-SNAPSHOTPU")
+    @PersistenceContext(unitName=UNIT_NAME)
     private EntityManager em;
-    
 
     
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-
     @Override
     public List<Employes> getAllEmployes() {
         
-        Query findAllQuery= em.createNamedQuery("Employes.findAll");
+        Query findAllQuery= em.createNamedQuery(NAME_QUERY_FIND_ALL_EMPLOYES);
         return findAllQuery.getResultList();
     
     }

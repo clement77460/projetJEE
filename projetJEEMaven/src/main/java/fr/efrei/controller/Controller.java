@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.efrei.controller;
 
 
@@ -31,11 +26,9 @@ public class Controller extends HttpServlet {
     @EJB
     private EmployesDaoLocal employesDao;
     
-    private int actionChoosed; //0 -> ajouter ... 1->update
+    private int actionChoosed; //0 -> ajouter employe ... 1->update employe
     
-    //0 -> error MSG en rouge pour bienvenue.jsp et employeView.jsp
-    //1 -> Information msg en bleu pour bienvenue.jsp
-    //2 -> On affiche plus rien
+    
         
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,7 +37,7 @@ public class Controller extends HttpServlet {
         
         String actionToProceed=EMPTY_STRING;
         if(request.getParameter(ACTION)!=null){
-            actionToProceed=request.getParameter(ACTION);//reference vers name="xxx" de l'HTML
+            actionToProceed=request.getParameter(ACTION);//reference vers name=".." de l'HTML
         }
         
         switch(actionToProceed){ 
@@ -69,6 +62,10 @@ public class Controller extends HttpServlet {
 
             case ACTION_GET_LIST:
                 this.redirectToEmployesView(request, response,2);
+                break;
+            
+            case ACTION_DISCONNECT:
+                request.getRequestDispatcher(DISCONNECT_VIEW).forward(request, response);
                 break;
                 
             default:
@@ -140,18 +137,17 @@ public class Controller extends HttpServlet {
         }
     }
     
-    
-    //rajouter la gestion d'erreur ici 
-    //Plus prise en compte à cause de JPA
+
     private void toDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         
         boolean hasSucceed=true;
         
+        //Error Manager for JPA 
+        //Can't reconnect after connection lost
         try{
             employesDao.deleteSpecificEmploye(Integer.parseInt(request.getParameter(RADIOS_VALUE)));
-            //boolean hasSucceed=ds.deleteSpecificEmploye(Integer.parseInt(request.getParameter(RADIOS_VALUE)));
         }catch(javax.ejb.EJBException e){
                 hasSucceed=false;
         }    
@@ -178,8 +174,6 @@ public class Controller extends HttpServlet {
         
     }
     
-    //rajouter la gestion d'erreur ici 
-    //Plus prise en compte à cause de JPA
     private void toInsert(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
@@ -200,7 +194,7 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session=request.getSession();
-        Employes emp=(Employes)session.getAttribute(EMPLOYE); //get id from emp
+        Employes emp=(Employes)session.getAttribute(EMPLOYE);
         
         
         employesDao.updateEmploye(this.buildEmploye(request, emp.getId()));
@@ -218,7 +212,11 @@ public class Controller extends HttpServlet {
                                     request.getParameter(EMPLOYE_MAIL));
     }
     
-
+    
+    //typeMessage
+    //0 -> error MSG en rouge pour bienvenue.jsp et employeView.jsp
+    //1 -> Information msg en bleu pour bienvenue.jsp
+    //2 -> On affiche plus rien
     private void redirectToEmployesView(HttpServletRequest request, HttpServletResponse response,int typeMessage)
             throws ServletException, IOException{
         
@@ -242,9 +240,7 @@ public class Controller extends HttpServlet {
         
         request.getRequestDispatcher(EMPLOYE_VIEW).forward(request, response);
     }
-    
-    private void checkSessionBeanStatus(){
-    }
+
 
         
     

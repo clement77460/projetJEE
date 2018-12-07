@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.efrei.model.entities;
+
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -16,57 +12,58 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+
+import static fr.efrei.constants.SQLConstants.*;
 /**
  *
  * @author Clément
  */
 @Entity
-@Table(name = "EMPLOYES")
+@Table(name = TABLE_EMPLOYES)
 @NamedQueries({
-    @NamedQuery(name = "Employes.findAll", query = "SELECT i FROM Employes i")})
+    @NamedQuery(name = NAME_QUERY_FIND_ALL_EMPLOYES, query = QUERY_FIND_ALL_EMPLOYES)})
 public class Employes implements Serializable {
 
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = ID)
     private Integer id;
     
     @NotNull
-    @Column(name = "NOM")
+    @Column(name = NOM)
     private String nom;
     
     @NotNull
-    @Column(name = "PRENOM")
+    @Column(name = PRENOM)
     private String prenom;
     
     @NotNull
-    @Column(name = "TELDOM")
+    @Column(name = TELDOM)
     private String teldom;
     
     @NotNull
-    @Column(name = "TELPORT")
+    @Column(name = TELPORT)
     private String telport;
     
     @NotNull
-    @Column(name = "TELPRO")
+    @Column(name = TELPRO)
     private String telpro;
     
     @NotNull
-    @Column(name = "ADRESSE")
+    @Column(name = ADRESSE)
     private String adresse;
     
     @NotNull
-    @Column(name = "CODEPOSTAL")
+    @Column(name = CODEPOSTAL)
     private String codepostal;
     
     @NotNull
-    @Column(name = "VILLE")
+    @Column(name = VILLE)
     private String ville;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-
+    
     @NotNull
-    @Column(name = "EMAIL")
+    @Column(name = EMAIL)
     private String email;
 
     public Employes() {
