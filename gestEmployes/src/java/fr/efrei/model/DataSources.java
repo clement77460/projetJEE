@@ -51,12 +51,13 @@ public class DataSources {
         try {
             prop.load(input);
         } catch (IOException ex) {
-            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void updateEmploye(Employe employe){
-        this.openConnection();
+    public boolean updateEmploye(Employe employe){
+        if(!this.openConnection()){
+            return false;
+        }
         
         try {
             PreparedStatement preparedStatement = dbConn.prepareStatement(UPDATE_TABLE_SQL);
@@ -72,12 +73,16 @@ public class DataSources {
             preparedStatement.setInt(10,employe.getId());
             preparedStatement .executeUpdate();
             
-        } catch (SQLException ex) {
-            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
             this.closeConnection();
+            
+            return true;
+            
+        } catch (SQLException ex) {
+         
+            this.closeConnection();
+            return false;
         }
-        
-        this.closeConnection();
+
     }
     
     public List<User> getAllUsers(){
@@ -87,16 +92,18 @@ public class DataSources {
         
         try {
             rs= this.setQuery(SELECT_ALL_USERS);
-            
-            User id;
-            while(rs.next()){
-                id= new User();
-                id.setLogin(rs.getString(IDENTIFIANTS_USER));
-                id.setPwd(rs.getString(IDENTIFIANTS_MDP));
-                ids.add(id);
+            if(rs !=null){
+                User id;
+                while(rs.next()){
+                    id= new User();
+                    id.setLogin(rs.getString(IDENTIFIANTS_USER));
+                    id.setPwd(rs.getString(IDENTIFIANTS_MDP));
+                    ids.add(id);
+                }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            this.closeConnection();
+            return ids;
         }
         
         this.closeConnection();
@@ -112,26 +119,33 @@ public class DataSources {
         
         try {
             rs= this.setPreparedSelectQuery(SELECT_SPECIFIC_EMPLOYE,id);
-            
-            rs.next();
-            
-            emp.setId(rs.getInt(EMPLOYES_ID));
-            emp.setAdresse(rs.getString(EMPLOYES_ADR));
-            emp.setCodePostal(rs.getString(EMPLOYES_CP));
-            emp.setEmail(rs.getString(EMPLOYES_EMAIL));
-            emp.setNom(rs.getString(EMPLOYES_NOM));
-            emp.setPrenom(rs.getString(EMPLOYES_PRENOM));
-            emp.setTeldom(rs.getString(EMPLOYES_TELDOM));
-            emp.setTelport(rs.getString(EMPLOYES_TELPORT));
-            emp.setTelpro(rs.getString(EMPLOYES_TELPRO));
-            emp.setVille(rs.getString(EMPLOYES_VILLE));
+            if(rs!=null){
+                rs.next();
+
+                emp.setId(rs.getInt(EMPLOYES_ID));
+                emp.setAdresse(rs.getString(EMPLOYES_ADR));
+                emp.setCodePostal(rs.getString(EMPLOYES_CP));
+                emp.setEmail(rs.getString(EMPLOYES_EMAIL));
+                emp.setNom(rs.getString(EMPLOYES_NOM));
+                emp.setPrenom(rs.getString(EMPLOYES_PRENOM));
+                emp.setTeldom(rs.getString(EMPLOYES_TELDOM));
+                emp.setTelport(rs.getString(EMPLOYES_TELPORT));
+                emp.setTelpro(rs.getString(EMPLOYES_TELPRO));
+                emp.setVille(rs.getString(EMPLOYES_VILLE));
+            }
+            else{
+                this.closeConnection();
+                return null;
+            }
+            this.closeConnection();
+            return emp;
             
         } catch (SQLException ex) {
-            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            this.closeConnection();
+            return null;
         }
         
-        this.closeConnection();
-        return emp;
+        
         
     }
     
@@ -183,24 +197,29 @@ public class DataSources {
         try {
             rs= this.setQuery(SELECT_ALL_EMPLOYES);
             
-            Employe id;
-            while(rs.next()){
-                id= new Employe();
-                id.setId(rs.getInt(EMPLOYES_ID));
-                id.setAdresse(rs.getString(EMPLOYES_ADR));
-                id.setCodePostal(rs.getString(EMPLOYES_CP));
-                id.setEmail(rs.getString(EMPLOYES_EMAIL));
-                id.setNom(rs.getString(EMPLOYES_NOM));
-                id.setPrenom(rs.getString(EMPLOYES_PRENOM));
-                id.setTeldom(rs.getString(EMPLOYES_TELDOM));
-                id.setTelport(rs.getString(EMPLOYES_TELPORT));
-                id.setTelpro(rs.getString(EMPLOYES_TELPRO));
-                id.setVille(rs.getString(EMPLOYES_VILLE));
-                ids.add(id);
+            if(rs!=null){
+                Employe id;
+                while(rs.next()){
+                    id= new Employe();
+                    id.setId(rs.getInt(EMPLOYES_ID));
+                    id.setAdresse(rs.getString(EMPLOYES_ADR));
+                    id.setCodePostal(rs.getString(EMPLOYES_CP));
+                    id.setEmail(rs.getString(EMPLOYES_EMAIL));
+                    id.setNom(rs.getString(EMPLOYES_NOM));
+                    id.setPrenom(rs.getString(EMPLOYES_PRENOM));
+                    id.setTeldom(rs.getString(EMPLOYES_TELDOM));
+                    id.setTelport(rs.getString(EMPLOYES_TELPORT));
+                    id.setTelpro(rs.getString(EMPLOYES_TELPRO));
+                    id.setVille(rs.getString(EMPLOYES_VILLE));
+                    ids.add(id);
+                }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+                this.closeConnection();
+                return ids;
+
         }
+        
         
         this.closeConnection();
         return ids;
@@ -209,9 +228,13 @@ public class DataSources {
     private ResultSet setQuery(String query){
         
         try {
+            if(stmt==null){
+                return null;
+            }
+            
             return stmt.executeQuery(query);
         } catch (SQLException ex) {
-            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+
         }
         
         return null;
@@ -225,7 +248,7 @@ public class DataSources {
             return preparedStatement.executeQuery();
             
         } catch (SQLException ex) {
-            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            
             
             return null;
         }  
@@ -238,7 +261,7 @@ public class DataSources {
             preparedStatement.execute();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            
             return false;
         }
         
@@ -247,10 +270,12 @@ public class DataSources {
     private void closeConnection(){
 
         try {
-            stmt.close();
-            dbConn.close();
+            if(stmt!=null && dbConn!=null){
+                stmt.close();
+                dbConn.close();
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
     
@@ -260,7 +285,6 @@ public class DataSources {
             this.stmt= dbConn.createStatement();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -269,7 +293,7 @@ public class DataSources {
         try {
             Class.forName(DRIVER_MYSQL).newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(DataSources.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         
     }

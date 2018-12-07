@@ -44,7 +44,10 @@ public final class Constants {
     public final static String ERROR_MESSAGE="errorMessage";
     public final static String ERROR_MESSAGE_FILL_ALL="Vous devez renseigner les deux champs";
     public final static String ERROR_MESSAGE_FAILURE="Echec de la connexion! Vérifiez votre login et/ou mot de passe et essayez à nouveau";
-    
+    public final static String ERROR_MESSAGE_FORMAT="Certains champs sont mal formatés ou non remplies: \n "+
+                                                    "(+)le numéro de téléphonne doit être composé de 10 chiffres \n"+
+                                                    "(+)l'Email de la forme xxx@xxx.xxx";
+    public final static String ERROR_MESSAGE_BDD="la connexion avec la base de donnée a échoué";
     public final static String TYPE_MESSAGE="typeMessage";
     
     public final static String RADIOS_VALUE="radiosSelected";
