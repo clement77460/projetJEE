@@ -7,8 +7,12 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import fr.efrei.model.entities.IdentifiantsPK;
+
+
 /**
- *
+ * Classe technique pour l'accès au SGBD qui implémente l'interface IdentifiantsDaoLocal
+ * (cf interface pour la javadoc)
+ * Se réfère à src/main/ressources/persistence.xml pour les données de connexion
  * @author Clément
  */
 @Stateless

@@ -10,7 +10,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
- *
+ * Classe technique pour l'accès au SGBD qui implémente l'interface EmployesDaoLocal
+ * (cf interface pour la javadoc)
+ * Se réfère à src/main/ressources/persistence.xml pour les données de connexion
  * @author Clément
  */
 @Stateless

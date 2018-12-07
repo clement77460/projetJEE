@@ -1,7 +1,7 @@
 package fr.efrei.constants;
 
 /**
- *
+ * Stock toutes les routes de notre programme
  * @author Clément
  */
 public final class PathConstants {

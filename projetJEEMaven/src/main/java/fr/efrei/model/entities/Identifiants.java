@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 import static fr.efrei.constants.SQLConstants.*;
 /**
- *
+ * Classe métier d'un Identifiants(utilisateur) dans la BDD
  * @author Clément
  */
 @Entity

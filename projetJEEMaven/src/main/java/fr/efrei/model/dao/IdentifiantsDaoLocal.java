@@ -9,7 +9,13 @@ import javax.ejb.Local;
  */
 @Local
 public interface IdentifiantsDaoLocal {
-
+    
+    /**
+     * Renvoit un utilisateur selon son id(login) et mdp
+     * @param id 
+     * @param mpd
+     * @return Identifiants si existant ou null 
+     */
     Identifiants getIdentifiants(String id,String mpd);
     
 }

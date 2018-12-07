@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 
 import static fr.efrei.constants.SQLConstants.*;
 /**
- *
+ * Représente l'union de la primary KEY (login et MDP) d'un identifiants
  * @author Clément
  */
 @Embeddable

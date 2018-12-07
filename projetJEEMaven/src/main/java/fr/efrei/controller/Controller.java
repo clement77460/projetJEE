@@ -17,7 +17,7 @@ import fr.efrei.model.entities.Identifiants;
 import javax.ejb.EJB;
 
 /**
- *
+ * Controller principal de notre application
  * @author Clément
  */
 public class Controller extends HttpServlet {
@@ -29,7 +29,13 @@ public class Controller extends HttpServlet {
     private int actionChoosed; //0 -> ajouter employe ... 1->update employe
     
     
-        
+    /**
+     * redirige chaque appel GET et SET vers les action dédiées
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */ 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -93,7 +99,16 @@ public class Controller extends HttpServlet {
     public String getServletInfo() {
         return EMPTY_STRING;
     }
-
+    
+    
+    /**
+     * Vérifie si l'identifiant correspond bien à un utilisateur
+     * puis redirige vers la liste des employés si c'est correct
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void checkLogin(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -124,6 +139,13 @@ public class Controller extends HttpServlet {
         
     }
     
+    /**
+     * Permet de savoir si on insert ou update un employé
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void whichActionWasChoosed(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException{
         switch(this.actionChoosed){
@@ -137,7 +159,13 @@ public class Controller extends HttpServlet {
         }
     }
     
-
+    /**
+     * Permet de déclencher la suppression d'un employe
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void toDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -162,6 +190,13 @@ public class Controller extends HttpServlet {
         }
     }
     
+    /**
+     * Déclenche l'affichage d'un employé
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void displayEmployeDetail(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
         
@@ -173,7 +208,13 @@ public class Controller extends HttpServlet {
         request.getRequestDispatcher(EMPLOYE_VIEW).forward(request, response);
         
     }
-    
+    /**
+     * Déclenche l'insertion d'un employé
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void toInsert(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
@@ -190,6 +231,13 @@ public class Controller extends HttpServlet {
         }
     }
     
+    /**
+     * déclenche la MaJ d'un employé
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void toUpdate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -203,6 +251,12 @@ public class Controller extends HttpServlet {
         this.redirectToEmployesView(request, response,2);
     }
     
+    /**
+     * Permet la création d'un objet de type Employes
+     * @param request
+     * @param id de l'employe à créer
+     * @return 
+     */
     private Employes buildEmploye(HttpServletRequest request,int id){
         
         return new Employes(id,request.getParameter(EMPLOYE_NOM),request.getParameter(EMPLOYE_PRENOM),
@@ -214,9 +268,18 @@ public class Controller extends HttpServlet {
     
     
     //typeMessage
-    //0 -> error MSG en rouge pour bienvenue.jsp et employeView.jsp
-    //1 -> Information msg en bleu pour bienvenue.jsp
-    //2 -> On affiche plus rien
+    
+    /**
+     * Redirige vers la liste des employés et affiche ou non un msg selon le scénario dans lequel on se situe
+     * @param request
+     * @param response
+     * @param typeMessage
+     *        Values possible:         //0 -> error MSG en rouge pour bienvenue.jsp et employeView.jsp
+     *                                 //1 -> Information msg en bleu pour bienvenue.jsp
+     *                                 //2 -> On affiche plus rien
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void redirectToEmployesView(HttpServletRequest request, HttpServletResponse response,int typeMessage)
             throws ServletException, IOException{
         
@@ -227,6 +290,17 @@ public class Controller extends HttpServlet {
         
     }
     
+    /**
+     * Redirige vers l'insertion d'un employé et affiche un msg d'erreur si échec
+     * @param request
+     * @param response
+     * @param typeMessage
+     *        Values possible:         //0 -> error MSG en rouge pour bienvenue.jsp et employeView.jsp
+     *                                 //1 -> Information msg en bleu pour bienvenue.jsp
+     *                                 //2 -> On affiche plus rien
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void redirectToInsertEmployeView(HttpServletRequest request, HttpServletResponse response,int typeMessage)
             throws ServletException, IOException{
         

@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 
 import static fr.efrei.constants.SQLConstants.*;
 /**
- *
+ * Classe métier représentant un Employé dans la BDD
  * @author Clément
  */
 @Entity

@@ -1,7 +1,7 @@
 package fr.efrei.constants;
 
 /**
- *
+ * Stock toutes les constantes relatives à la persistance
  * @author Clément
  */
 public final class SQLConstants {
