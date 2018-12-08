@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.efrei.controller;
 
 import fr.efrei.model.DataSources;
@@ -19,14 +14,14 @@ import static fr.efrei.constants.Constants.*; //import des constantes de type ac
 import static fr.efrei.constants.PathConstants.*; //import des constantes de type chemins
 
 /**
- *
+ * Controller principal de notre aplication
  * @author Clément
  */
 public class Controller extends HttpServlet {
     
     private final DataSources ds=new DataSources();
     
-    private int actionChoosed; 
+    private int actionChoosed; //Permet de faire la difference entre la view d'insert et d'update
         
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

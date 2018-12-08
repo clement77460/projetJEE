@@ -37,14 +37,8 @@ public class User {
     }
     
     public boolean isCorrect(List<User> ids){
+
+        return ids.stream().anyMatch((user) -> (user.login.equals(this.login) && user.pwd.equals(this.pwd)));
         
-        for(User user : ids){
-            if(user.login.equals(this.login) && user.pwd.equals(this.pwd)){
-                return true;
-            }
-        }
-        return false;
-        
-        //return ids.stream().anyMatch((i) -> (i.getLogin().equals(this.login) && i.getPwd().equals(this.pwd) ));
     }
 }

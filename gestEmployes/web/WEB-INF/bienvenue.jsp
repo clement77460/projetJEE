@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
     <body>
 
@@ -22,12 +22,12 @@
             <div class="row">
                 
                 <c:choose>
-                    <c:when test="${sessionScope.errorDeleteMessage ==0}">
-                            <p> La suppression a échoué !</p>
+                    <c:when test="${sessionScope.typeMessage ==0}">
+                            <p style="color:firebrick;"> La suppression a échoué !</p>
                     </c:when>
                     
                     <c:when test="${sessionScope.typeMessage ==1}">
-                            <p> La suppression a réussi !</p>
+                            <p style="color:steelblue;"> La suppression a réussi !</p>
                     </c:when>
                     
                     <c:otherwise>

@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.efrei.constants;
 
 /**
- *
+ * Recence toutes les constantes des tables SQL de notre appli
  * @author Clément
  */
 public final class SqlFieldsConstants {

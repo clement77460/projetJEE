@@ -6,7 +6,7 @@
 package fr.efrei.constants;
 
 /**
- *
+ * Recence toutes les requetes SQL
  * @author Clément
  */
 public final class SQLConstants {

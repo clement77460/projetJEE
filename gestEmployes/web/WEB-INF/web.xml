@@ -14,6 +14,7 @@
         </session-timeout>
     </session-config>
     <!--  permet d'inserer la biblio jstl dans toutes jsp-->
+    <!--  De meme pour le header-->
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>
