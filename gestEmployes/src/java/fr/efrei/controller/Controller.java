@@ -193,7 +193,7 @@ public class Controller extends HttpServlet {
      * @param response
      * @param message : 
      *      1.vide => on affiche l'employé et le message s'il y'en a un
-     *      2.erreur formattage => on affiche l'employé à son état initial et un MSG erreur formattage
+     *      2.erreur formattage => on affiche l'employé modifié et un MSG erreur formattage
      *      3.erreur SGBD => on affiche un MSG erreur SGBD
      * @throws ServletException
      * @throws IOException 
@@ -209,19 +209,13 @@ public class Controller extends HttpServlet {
         session.setAttribute(ACTION_CHOOSED,this.actionChoosed);
         session.setAttribute("errorMessageEmploye",message);
         
-        //no format error, we compute employe details with DataBase
-        //format error, we display back employe details that were compute by DataBase
+        //No error(=empty) we compute a new Employ with the DB
         if(message.equals(EMPTY_STRING)){
             
-            if(this.computeEmployeWithDataBase(session,request)){
-                request.getRequestDispatcher(EMPLOYE_VIEW).forward(request, response);
-            }else{//DB error while computing
+            if(!this.computeEmployeWithDataBase(session,request)){
                 session.setAttribute("errorMessageEmploye",ERROR_MESSAGE_BDD);
             }
-             
-        }else{
-            session.setAttribute(EMPLOYE,(Employe)session.getAttribute(EMPLOYE));
-            
+        
         }
         request.getRequestDispatcher(EMPLOYE_VIEW).forward(request, response);
             
@@ -296,18 +290,20 @@ public class Controller extends HttpServlet {
         HttpSession session=request.getSession();
         
         Employe emp=(Employe)session.getAttribute(EMPLOYE); 
-        emp=this.buildEmploye(request, emp.getId(),false); 
+        Employe newEmp=this.buildEmploye(request, emp.getId(),false); 
         
-        if(emp==null){//erreur de formattage
+        if(newEmp==null){//erreur de formattage
+            session.setAttribute(EMPLOYE,this.buildEmploye(request, emp.getId(),true));
             this.displayEmployeDetail(request, response, ERROR_MESSAGE_FORMAT);
         }
-        
-        if(ds.updateEmploye(emp)){
-            this.redirectToEmployesView(request, response,2);
-        }else{
-            this.displayEmployeDetail(request, response, ERROR_MESSAGE_BDD);
+        else{
+            if(ds.updateEmploye(newEmp)){ //success
+                this.redirectToEmployesView(request, response,2);
+            }else{//erreur de BDD
+                session.setAttribute(EMPLOYE,newEmp);
+                this.displayEmployeDetail(request, response, ERROR_MESSAGE_BDD);
+            }
         }
-       
         
     }
     
