@@ -38,6 +38,7 @@ public final class Constants {
     public final static String PASSWORD="password";
     
     public final static String ERROR_MESSAGE="errorMessage";
+    public final static String ERROR_MESSAGE_EMPLOYE="errorMessageEmploye";
     public final static String ERROR_MESSAGE_FILL_ALL="Vous devez renseigner les deux champs";
     public final static String ERROR_MESSAGE_FAILURE="Echec de la connexion! Vérifiez votre login et/ou mot de passe et essayez à nouveau";
     public final static String ERROR_MESSAGE_FORMAT="Certains champs sont mal formatés ou non remplies: \n "+
