@@ -53,6 +53,10 @@ public final class Constants {
     
     public final static String DRIVER_MYSQL="com.mysql.jdbc.Driver";
     
+    public final static String REGEX_TEL="^0[0-9]([ .-]?[0-9]{2}){4}";
+    public final static String REGEX_CODE_POSTAL="^[0-9]{5}$";
+    public final static String REGEX_MAIL="^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\\.[a-z]{2,4}$";
+    
     
     
     

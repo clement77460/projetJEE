@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.efrei.model;
 
 
@@ -23,8 +18,9 @@ import java.util.logging.Logger;
 import static fr.efrei.constants.SQLConstants.*;
 import static fr.efrei.constants.SqlFieldsConstants.*;
 import static fr.efrei.constants.Constants.*;
+
 /**
- *
+ * Centralise les accès à la BDD
  * @author Clément
  */
 public class DataSources {
@@ -39,7 +35,10 @@ public class DataSources {
         this.initProperties(); 
         
     }
-
+    
+    /**
+     * Permet de charger les properties de notre BDD
+     */
     private void initProperties(){
         
         prop=new Properties();
@@ -54,6 +53,11 @@ public class DataSources {
         }
     }
     
+    /**
+     * MaJ d'un employé dans ntore BDD
+     * @param employe à MaJ
+     * @return false si la connexion à la BDD est impossible
+     */
     public boolean updateEmploye(Employe employe){
         if(!this.openConnection()){
             return false;
@@ -85,6 +89,10 @@ public class DataSources {
 
     }
     
+    /**
+     * 
+     * @return une liste de tout les IDENTIFIANTS de la BDD
+     */
     public List<User> getAllUsers(){
         this.openConnection();
         ResultSet rs;
@@ -111,6 +119,11 @@ public class DataSources {
         
     }
     
+    /**
+     * Obtenir les infos d'un employé en particulié
+     * @param id
+     * @return null si la connexion à la BDD est impossible,sinon l'employe en question
+     */
     public Employe getSpecificEmploye(int id){
         this.openConnection();
         
@@ -149,6 +162,11 @@ public class DataSources {
         
     }
     
+    /**
+     * supprimer un employé de la BDD
+     * @param id Primary Key dans la BDD
+     * @return false si la connexion à la BDD est impossible
+     */
     public boolean deleteSpecificEmploye(int id){
         if(!this.openConnection())
             return false;
@@ -159,6 +177,11 @@ public class DataSources {
         
     }
     
+    /**
+     * insérer un employé dans la BDD
+     * @param employe à insérer
+     * @return false si la connexion à la BDD est impossible
+     */
     public boolean insertEmploye(Employe employe){
         if(!this.openConnection())
             return false;
@@ -188,6 +211,10 @@ public class DataSources {
         return true;
     }
     
+    /**
+     * 
+     * @return une liste de tout les employés
+     */
     public List<Employe> getAllEmployes(){
         this.openConnection();
         
@@ -225,6 +252,11 @@ public class DataSources {
         return ids;
     }
     
+    /**
+     * méthode générique pour l'execution d'une requete
+     * @param query
+     * @return null si la connexion à la BDD est impossible, sinon le ResultSet
+     */
     private ResultSet setQuery(String query){
         
         try {
@@ -240,6 +272,12 @@ public class DataSources {
         return null;
     }
   
+    /**
+     * méthode générique pour l'execution d'une prepared query sur un ID
+     * @param query
+     * @param id
+     * @return null si la connexion à la BDD est impossible, sinon le ResultSet
+     */
     private ResultSet setPreparedSelectQuery(String query,int id){
         try {
             PreparedStatement preparedStatement = dbConn.prepareStatement(query);
@@ -254,6 +292,12 @@ public class DataSources {
         }  
     }
     
+    /**
+     * méthode générique pour l'execution d'une prepared query sur un ID
+     * @param request
+     * @param id
+     * @return boolean, true si réussite, sinon false
+     */
     private boolean executePreparedDeleteQuery(String request,int id){
         try {
             PreparedStatement preparedStatement = dbConn.prepareStatement(request);
@@ -267,6 +311,10 @@ public class DataSources {
         
     }
     
+    /**
+     * Fermeture d'une connexion vers la BDD
+     * 
+     */
     private void closeConnection(){
 
         try {
@@ -279,6 +327,10 @@ public class DataSources {
         }
     }
     
+    /**
+     * Ouverture d'une connexion vers la BDD
+     * @return false si échec, true sinon
+     */
     private boolean openConnection(){
         try {
             this.dbConn= DriverManager.getConnection(prop.getProperty(DB_URL_PROPERTIES),prop.getProperty(DB_USER_PROPERTIES),prop.getProperty(DB_PASS_PROPERTIES));
@@ -289,6 +341,9 @@ public class DataSources {
         }
     }
     
+    /**
+     * Force l'utilisattion du driver MYSQL
+     */
     private void initClassLoader(){
         try {
             Class.forName(DRIVER_MYSQL).newInstance();

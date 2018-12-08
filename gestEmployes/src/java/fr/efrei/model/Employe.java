@@ -6,7 +6,7 @@
 package fr.efrei.model;
 
 /**
- *
+ * Représente notre entité Employé (EMPLOYES dans la BDD)
  * @author Clément
  */
 public class Employe {
@@ -33,11 +33,19 @@ public class Employe {
         this.ville = ville;
         this.email = email;
     }
-
+    
+    /**
+     * get ID (PK)
+     * @return 
+     */
     public int getId() {
         return id;
     }
-
+    
+    /**
+     * set ID(PK)
+     * @param id 
+     */
     public void setId(int id) {
         this.id = id;
     }
@@ -46,6 +54,7 @@ public class Employe {
     
     }
 
+    
     public String getNom() {
         return nom;
     }

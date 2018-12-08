@@ -22,7 +22,15 @@ public class Controller extends HttpServlet {
     private final DataSources ds=new DataSources();
     
     private int actionChoosed; //Permet de faire la difference entre la view d'insert et d'update
-        
+    
+    
+    /**
+     * redirige chaque appel GET et SET vers les action dédiées
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */ 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -84,7 +92,17 @@ public class Controller extends HttpServlet {
     public String getServletInfo() {
         return EMPTY_STRING;
     }
-
+    
+    
+    /**
+     * Vérifie si l'identifiant correspond bien à un utilisateur
+     * puis redirige vers la liste des employés si c'est correct
+     * S'il n'y a pas d'utilisateurs en BD => problème de connexion au SGBD
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void checkLogin(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -123,6 +141,13 @@ public class Controller extends HttpServlet {
         
     }
     
+     /**
+     * Permet de savoir si on insert ou update un employé
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void whichActionWasChoosed(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException{
         switch(this.actionChoosed){
@@ -136,6 +161,14 @@ public class Controller extends HttpServlet {
         }
     }
     
+     /**
+     * Permet de déclencher la suppression d'un employe
+     * Si hasSucced est à false, affichage indiquant une erreur SGBD
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void toDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -153,6 +186,18 @@ public class Controller extends HttpServlet {
         }
     }
     
+    
+    /**
+     * Permet d'afficher le détail d'un employé
+     * @param request
+     * @param response
+     * @param message : 
+     *      1.vide => on affiche l'employé et le message s'il y'en a un
+     *      2.erreur formattage => on affiche l'employé à son état initial et un MSG erreur formattage
+     *      3.erreur SGBD => on affiche un MSG erreur SGBD
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void displayEmployeDetail(HttpServletRequest request, HttpServletResponse response,String message)
             throws ServletException, IOException{
         
@@ -168,7 +213,7 @@ public class Controller extends HttpServlet {
         //format error, we display back employe details that were compute by DataBase
         if(message.equals(EMPTY_STRING)){
             
-            if(this.computeEmployeWithDataBase(session,response,request)){
+            if(this.computeEmployeWithDataBase(session,request)){
                 request.getRequestDispatcher(EMPLOYE_VIEW).forward(request, response);
             }else{//DB error while computing
                 session.setAttribute("errorMessageEmploye",ERROR_MESSAGE_BDD);
@@ -184,7 +229,17 @@ public class Controller extends HttpServlet {
         
     }
     
-    private boolean computeEmployeWithDataBase(HttpSession session,HttpServletResponse response,HttpServletRequest request)
+    /**
+     * Permet de créer un employé et de l'insérer en attribut de session
+     * La fabrication se passe mal et l'indique en cas de mauvaise connexion au SGBD
+     * @param session
+     * @param response
+     * @param request
+     * @return false: erreur SGBD, true : on a bien recupéré les infos de l'employé
+     * @throws ServletException
+     * @throws IOException 
+     */
+    private boolean computeEmployeWithDataBase(HttpSession session,HttpServletRequest request)
         throws ServletException, IOException{
         
         Employe emp=ds.getSpecificEmploye(Integer.parseInt(request.getParameter(RADIOS_VALUE)));
@@ -194,6 +249,15 @@ public class Controller extends HttpServlet {
         
     }
     
+    /**
+     * Déclenche l'insertion d'un employé dans la BDD après deux controles:
+     *      1.Contrôle de la présence de tout les champs et du bon formattage (erreur formattage)
+     *      2.Connexion au SGBD effective (erreur_BDD)
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void toInsert(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
@@ -217,6 +281,15 @@ public class Controller extends HttpServlet {
         }
     }
     
+    /**
+     * Déclenche la MaJ d'un employé dans la BDD après deux controles:
+     *      1.Contrôle de la présence de tout les champs et du bon formattage (erreur formattage)
+     *      2.Connexion au SGBD effective (erreur_BDD)
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void toUpdate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -238,6 +311,14 @@ public class Controller extends HttpServlet {
         
     }
     
+    
+    /**
+     * Permet la création d'un objet de type Employes
+     * @param request
+     * @param id de l'employe à créer
+     * @param withoutChecking permet de garder l'affichage d'un employé malgrès les erreurs de formattage
+     * @return null si l'employé est mal formatté ou un Employe si le formattage est correcte
+     */
     private Employe buildEmploye(HttpServletRequest request,int id,boolean withoutChecking){
         
         if(!withoutChecking){
@@ -254,12 +335,12 @@ public class Controller extends HttpServlet {
                                     request.getParameter(EMPLOYE_MAIL));
     }
     
-    
-    private boolean checkFormat(HttpServletRequest request){
-        String regexTel="^0[0-9]([ .-]?[0-9]{2}){4}";
-        String regexMail="^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\\.[a-z]{2,4}$";
-        String regexCP="^[0-9]{5}$" ;
-        
+    /**
+     * Permet de tester le bon formattage des champs lors de l'insertion / MaJ d'un employé
+     * @param request
+     * @return true si les tests de formattage sont ok sinon false
+     */
+    private boolean checkFormat(HttpServletRequest request){    
         String nom=request.getParameter(EMPLOYE_NOM);
         String prenom=request.getParameter(EMPLOYE_PRENOM);
         String telDom=request.getParameter(EMPLOYE_TEL_DOM);
@@ -277,17 +358,17 @@ public class Controller extends HttpServlet {
             return false;
         }
         
-        if(telDom.matches(regexTel)&&telPro.matches(regexTel)&&telMob.matches(regexTel)) {
+        if(telDom.matches(REGEX_TEL)&&telPro.matches(REGEX_TEL)&&telMob.matches(REGEX_TEL)) {
         } else {
             return false;
         }
         
-        if(mail.matches(regexMail)) {
+        if(mail.matches(REGEX_MAIL)) {
         } else {
             return false;
         }
         
-        if(cp.matches(regexCP)){
+        if(cp.matches(REGEX_CODE_POSTAL)){
         }else{
             return false;
         }
@@ -295,6 +376,17 @@ public class Controller extends HttpServlet {
         return true;
     }
     
+    /**
+     * Redirige vers la liste des employés et affiche ou non un msg selon le scénario dans lequel on se situe
+     * @param request
+     * @param response
+     * @param typeMessage
+     *        Values possible:         //0 -> error MSG en rouge pour bienvenue.jsp et employeView.jsp
+     *                                 //1 -> Information msg en bleu pour bienvenue.jsp
+     *                                 //2 -> On affiche plus rien
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void redirectToEmployesView(HttpServletRequest request, HttpServletResponse response,int typeMessage)
             throws ServletException, IOException{
         
@@ -305,6 +397,17 @@ public class Controller extends HttpServlet {
         
     }
     
+    /**
+     * Redirige vers l'insertion d'un employé et affiche un msg d'erreur si échec
+     * @param request
+     * @param response
+     * @param typeMessage
+     *        Values possible:         //0 -> error MSG en rouge pour bienvenue.jsp et employeView.jsp
+     *                                 //1 -> Information msg en bleu pour bienvenue.jsp
+     *                                 //2 -> On affiche plus rien
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void redirectToInsertEmployeView(HttpServletRequest request, HttpServletResponse response,String message)
             throws ServletException, IOException{
         
