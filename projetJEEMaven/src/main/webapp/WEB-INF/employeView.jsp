@@ -10,29 +10,14 @@
     <body>
         <div id="page-wrapper">
             <div class="row">
-                <div class="col-lg-9">
-                    
-                    <c:choose>
-                        <c:when test="${sessionScope.actionChoosed ==0}">
-                            <h1 class="page-header">Ajouter un employé</h1>
-                        </c:when>
-                        <c:otherwise>
-                             <h1 class="page-header">Détails du membre 
-                                 <c:out value="${employe.prenom}" default=""></c:out>
-                                 <c:out value="${employe.nom}" default=""></c:out>
-                             </h1>
-                        </c:otherwise>
-                    </c:choose>
-                    
-                    <c:if test="${sessionScope.typeMessage ==0}">
-                        <div class="alert alert-danger" role="alert">
-                            <p> Echec de l'ajout </p>
-                        </div>
-                        <c:remove var="typeMessage" scope="session"></c:remove>
-                    </c:if>
-                </div>
-                <!-- /.col-lg-12 -->
+
+                <!-- display error message && type of action (insert or update) -->
+                <jsp:include page="dynamicEmployeView.jsp"/>
+                
+                <!-- display disconnect part -->
                 <jsp:include page="disconnectForm.jsp"/>
+                
+                
             </div>
          <form method="POST" action="/projetJEEMaven">
             <div class="form-group row">

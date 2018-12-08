@@ -55,11 +55,11 @@ public class Controller extends HttpServlet {
                 break;
 
             case ACTION_AJOUTER:
-                this.redirectToInsertEmployeView(request, response,2);
+                this.redirectToInsertEmployeView(request, response,EMPTY_STRING);
                 break;
 
             case ACTION_DETAILS:
-                this.displayEmployeDetail(request, response);
+                this.displayEmployeDetail(request, response,EMPTY_STRING);
                 break;
 
             case ACTION_VALIDER:
@@ -197,17 +197,27 @@ public class Controller extends HttpServlet {
      * @throws ServletException
      * @throws IOException 
      */
-    private void displayEmployeDetail(HttpServletRequest request, HttpServletResponse response)
+    private void displayEmployeDetail(HttpServletRequest request, HttpServletResponse response,String message)
             throws ServletException, IOException{
         
         HttpSession session=request.getSession();
         
         this.actionChoosed=1;
-        session.setAttribute(EMPLOYE, employesDao.getEmploye(Integer.parseInt(request.getParameter("radiosSelected"))));
-        session.setAttribute(ACTION_CHOOSED,this.actionChoosed);
-        request.getRequestDispatcher(EMPLOYE_VIEW).forward(request, response);
         
+        session.setAttribute(ACTION_CHOOSED,this.actionChoosed);
+        session.setAttribute(ERROR_MESSAGE_EMPLOYE,message);
+        
+        if(message.equals(EMPTY_STRING)){
+            session.setAttribute(EMPLOYE,employesDao.getEmploye(Integer.parseInt(request.getParameter(RADIOS_VALUE))));
+        }
+        else{
+            session.setAttribute(EMPLOYE,(Employes)session.getAttribute(EMPLOYE));
+        }
+        request.getRequestDispatcher(EMPLOYE_VIEW).forward(request, response);
+
     }
+    
+    
     /**
      * Déclenche l'insertion d'un employé
      * @param request
@@ -218,17 +228,15 @@ public class Controller extends HttpServlet {
     private void toInsert(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
-        boolean hasSucceed=true;
-        employesDao.insertEmploye(this.buildEmploye(request,0));
+        Employes emp=this.buildEmploye(request,0,false);
         
-        if(hasSucceed){
-            
+        if(emp==null){
+            this.redirectToInsertEmployeView(request, response, ERROR_MESSAGE_FORMAT);
+        }else{
+            employesDao.insertEmploye(emp);
             this.redirectToEmployesView(request, response,2);
-            
         }
-        else{
-            this.redirectToInsertEmployeView(request, response, 0);
-        }
+        
     }
     
     /**
@@ -244,21 +252,33 @@ public class Controller extends HttpServlet {
         HttpSession session=request.getSession();
         Employes emp=(Employes)session.getAttribute(EMPLOYE);
         
+        Employes newEmp=this.buildEmploye(request, emp.getId(),false);
         
-        employesDao.updateEmploye(this.buildEmploye(request, emp.getId()));
-
+        if(newEmp==null){//erreur de formattage
+            session.setAttribute(EMPLOYE, this.buildEmploye(request, emp.getId(),true));
+            this.displayEmployeDetail(request, response, ERROR_MESSAGE_FORMAT);
+        
+        }else{
+            employesDao.updateEmploye(newEmp);
+            this.redirectToEmployesView(request, response,2);
+        }
        
-        this.redirectToEmployesView(request, response,2);
+        
     }
     
     /**
-     * Permet la création d'un objet de type Employes
+     * Permet la création d'un objet de type Employes en verifiant bien que tout les champs correspondent
      * @param request
      * @param id de l'employe à créer
-     * @return 
+     * @return null si le formattage ne correspond pas
      */
-    private Employes buildEmploye(HttpServletRequest request,int id){
-        
+    private Employes buildEmploye(HttpServletRequest request,int id,boolean withoutChecking){
+        if(!withoutChecking){
+            if(!checkFormat(request))
+            {
+                return null;
+            }
+        }
         return new Employes(id,request.getParameter(EMPLOYE_NOM),request.getParameter(EMPLOYE_PRENOM),
                                     request.getParameter(EMPLOYE_TEL_DOM),request.getParameter(EMPLOYE_TEL_MOB),
                                     request.getParameter(EMPLOYE_TEL_PRO),request.getParameter(EMPLOYE_ADR),
@@ -267,7 +287,6 @@ public class Controller extends HttpServlet {
     }
     
     
-    //typeMessage
     
     /**
      * Redirige vers la liste des employés et affiche ou non un msg selon le scénario dans lequel on se situe
@@ -301,21 +320,65 @@ public class Controller extends HttpServlet {
      * @throws ServletException
      * @throws IOException 
      */
-    private void redirectToInsertEmployeView(HttpServletRequest request, HttpServletResponse response,int typeMessage)
+    private void redirectToInsertEmployeView(HttpServletRequest request, HttpServletResponse response,String message)
             throws ServletException, IOException{
-        
         
         this.actionChoosed=0;
         
         HttpSession session=request.getSession();
-        session.setAttribute(EMPLOYE,null);
+        
         session.setAttribute(ACTION_CHOOSED,actionChoosed);
-        session.setAttribute(TYPE_MESSAGE, typeMessage);
+        session.setAttribute("errorMessageEmploye", message);
+        
+        if(!message.equals(EMPTY_STRING))//cela signifie qu'il s'est trompé donc on sauvegarde ce qu'il a déja ecris
+            session.setAttribute(EMPLOYE,this.buildEmploye(request, actionChoosed, true));
+        else{
+            session.setAttribute(EMPLOYE,null);
+        }
         
         request.getRequestDispatcher(EMPLOYE_VIEW).forward(request, response);
     }
 
-
+    /**
+     * Permet de tester le bon formattage des champs lors de l'insertion / MaJ d'un employé
+     * @param request
+     * @return true si les tests de formattage sont ok sinon false
+     */
+    private boolean checkFormat(HttpServletRequest request){    
+        String nom=request.getParameter(EMPLOYE_NOM);
+        String prenom=request.getParameter(EMPLOYE_PRENOM);
+        String telDom=request.getParameter(EMPLOYE_TEL_DOM);
+        String telMob=request.getParameter(EMPLOYE_TEL_MOB);
+        String telPro=request.getParameter(EMPLOYE_TEL_PRO);
+        String adr=request.getParameter(EMPLOYE_ADR);
+        String cp=request.getParameter(EMPLOYE_CP);
+        String ville=request.getParameter(EMPLOYE_VILLE);
+        String mail=request.getParameter(EMPLOYE_MAIL);
+        
+        if(nom.equals(EMPTY_STRING)||prenom.equals(EMPTY_STRING)||telDom.equals(EMPTY_STRING)||
+            telMob.equals(EMPTY_STRING)||telPro.equals(EMPTY_STRING)||adr.equals(EMPTY_STRING)||
+            cp.equals(EMPTY_STRING)||ville.equals(EMPTY_STRING)||mail.equals(EMPTY_STRING))
+        {
+            return false;
+        }
+        
+        if(telDom.matches(REGEX_TEL)&&telPro.matches(REGEX_TEL)&&telMob.matches(REGEX_TEL)) {
+        } else {
+            return false;
+        }
+        
+        if(mail.matches(REGEX_MAIL)) {
+        } else {
+            return false;
+        }
+        
+        if(cp.matches(REGEX_CODE_POSTAL)){
+        }else{
+            return false;
+        }
+        
+        return true;
+    }
         
     
 }
