@@ -38,8 +38,19 @@ public class Controller extends HttpServlet {
         if(request.getParameter(ACTION)!=null){
             actionToProceed=request.getParameter(ACTION);//reference vers name="xxx" de l'HTML
         }else{//un utilisateur arrive sur index, on verifie s'il a une session
-            if(request.getSession().getAttribute(USER)!=null)//il a une session car il ne s'est pas déco
+            if(request.getSession().getAttribute(USER)!=null){//il a une session car il ne s'est pas déco
                 actionToProceed=ACTION_GET_LIST;
+            }
+        }
+
+        if(request.getSession().getAttribute(USER)==null && 
+                !(actionToProceed.equals(EMPTY_STRING)||actionToProceed.equals(ACTION_LOGIN)))
+        {
+            //l'utilisateur s'est deconnecté d'une autre session. 
+            //il perd donc automatiquement tte ces sessions !
+            
+            actionToProceed=EMPTY_STRING;
+            
         }
         
         switch(actionToProceed){ 
