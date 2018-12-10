@@ -12,9 +12,9 @@
         <h1>Login</h1>
         <!-- /.navbar-top-links -->
         <div class="container">
-            <c:if test="${sessionScope.errorMessage !=null}">
+            <c:if test="${requestScope.errorMessage !=null}">
                 <div class="alert alert-danger" role="alert">
-                    <c:out value="${errorMessage}" default=""></c:out>
+                    <c:out value="${requestScope.errorMessage}" default=""></c:out>
                 </div>
                 <c:remove var="errorMessage" scope="session"></c:remove>
             </c:if>

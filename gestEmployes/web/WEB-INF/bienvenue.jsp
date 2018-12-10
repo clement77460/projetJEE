@@ -22,11 +22,11 @@
             <div class="row">
                 
                 <c:choose>
-                    <c:when test="${sessionScope.typeMessage ==0}">
+                    <c:when test="${requestScope.typeMessage ==0}">
                             <p style="color:firebrick;"> La suppression a échoué !</p>
                     </c:when>
                     
-                    <c:when test="${sessionScope.typeMessage ==1}">
+                    <c:when test="${requestScope.typeMessage ==1}">
                             <p style="color:steelblue;"> La suppression a réussi !</p>
                     </c:when>
                     
@@ -43,7 +43,7 @@
                         <!-- /.panel-heading -->
                         <form method="POST" action="/gestEmployes">  
                         <c:choose>
-                            <c:when test="${sessionScope.employes.size() !=0}">
+                            <c:when test="${requestScope.employes.size() !=0}">
 
 
                                 <div class="panel-body">
@@ -64,7 +64,7 @@
                                         </thead>
                                         <tbody>
                                              
-                                                <c:forEach items="${ sessionScope.employes }" var="employe" >
+                                                <c:forEach items="${ requestScope.employes }" var="employe" >
                                                     <tr> 
                                                     <td>  <INPUT TYPE="radio" NAME='radiosSelected' VALUE="${ employe.id }" CHECKED ></td>
                                                     <td><c:out value="${ employe.nom }" /> !</td>

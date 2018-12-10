@@ -1,10 +1,15 @@
 create database PROJET;
-create user 'adm'@'localhost' IDENTIFIED By 'adm';
-GRANT ALL PRIVILEGES ON PROJET.* to 'adm'@'localhost';
+create user 'adm' IDENTIFIED By 'adm';
+GRANT ALL PRIVILEGES ON PROJET.* to 'adm';
 
 use PROJET;
 
-Create TABLE IDENTIFIANTS (LOGIN VARCHAR(32), MDP VARCHAR(32));
+
+drop table IDENTIFIANTS;
+drop table EMPLOYES;
+
+
+Create TABLE IDENTIFIANTS (LOGIN VARCHAR(32), MDP VARCHAR(32),CONSTRAINT primary_key_membre PRIMARY KEY (LOGIN,MDP));
 INSERT INTO IDENTIFIANTS (LOGIN, MDP) 
 VALUES ('admin', 'admin');
 
@@ -24,7 +29,7 @@ CREATE TABLE EMPLOYES (
 	CONSTRAINT primary_key_membre PRIMARY KEY (ID)
 );
 
-/*Insertion de 6 membres*/
+/*Insertion de 10 membres*/
 INSERT INTO EMPLOYES(NOM,PRENOM,TELDOM,TELPORT,TELPRO,ADRESSE,CODEPOSTAL,VILLE,EMAIL) VALUES
 ('Turing','Alan','0123456789','0612345678','0698765432','2 rue des Automates','92700','Colombes','aturing@efrei.fr'),
 ('Galois','Evariste','0145362787','0645362718','0611563477','21 rue des Morts-trop-jeunes','92270','Bois-colombes','egalois@efrei.fr'),
@@ -32,5 +37,9 @@ INSERT INTO EMPLOYES(NOM,PRENOM,TELDOM,TELPORT,TELPRO,ADRESSE,CODEPOSTAL,VILLE,E
 ('Gauss','Carl Friedrich','0187611987','0783334256','0658878654','6 rue des Transformations','75016','Paris','cgauss@efrei.fr'),
 ('Pascal','Blaise','0187384987','0622494256','0674178654','39 bvd de Port-Royal','21000','Dijon','bpascal@efrei.fr'),
 ('Euler','Leonhard','0122456678','0699854673','0623445166','140 avenue Complexe','90000','Nanterre','leuler@efrei.fr');
+('toto','toto','0187665987','0623334256','0654778654','65 rue de la Logique','92700','Colombes','toto@efrei.fr'),
+('tata','tata deux','0187611987','0783334256','0658878654','6 rue des Transformations','75016','Paris','tata@efrei.fr'),
+('titi','titi','0187384987','0622494256','0674178654','39 bvd de Port-Royal','21000','Dijon','titi@efrei.fr'),
+('tutu','tutu','0122456678','0699854673','0623445166','140 avenue Complexe','90000','Nanterre','tutu@efrei.fr');
 
 commit;
