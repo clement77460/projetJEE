@@ -43,7 +43,21 @@ public class Controller extends HttpServlet {
         
         String actionToProceed=EMPTY_STRING;
         if(request.getParameter(ACTION)!=null){
-            actionToProceed=request.getParameter(ACTION);//reference vers name=".." de l'HTML
+            actionToProceed=request.getParameter(ACTION);//reference vers name="xxx" de l'HTML
+        }else{//un utilisateur arrive sur index, on verifie s'il a une session
+            if(request.getSession().getAttribute(USER)!=null){//il a une session car il ne s'est pas déco
+                actionToProceed=ACTION_GET_LIST;
+            }
+        }
+
+        if(request.getSession().getAttribute(USER)==null && 
+                !(actionToProceed.equals(EMPTY_STRING)||actionToProceed.equals(ACTION_LOGIN)))
+        {
+            //l'utilisateur s'est deconnecté d'une autre session. 
+            //il perd donc automatiquement tte ces sessions !
+            
+            actionToProceed=EMPTY_STRING;
+            
         }
         
         switch(actionToProceed){ 
@@ -71,6 +85,7 @@ public class Controller extends HttpServlet {
                 break;
             
             case ACTION_DISCONNECT:
+                request.getSession().removeAttribute(USER);
                 request.getRequestDispatcher(DISCONNECT_VIEW).forward(request, response);
                 break;
                 
@@ -118,7 +133,7 @@ public class Controller extends HttpServlet {
         
         if(request.getParameter(USER).equals(EMPTY_STRING) || request.getParameter(PASSWORD).equals(EMPTY_STRING)){
             
-            session.setAttribute(ERROR_MESSAGE, ERROR_MESSAGE_FILL_ALL);
+            request.setAttribute(ERROR_MESSAGE, ERROR_MESSAGE_FILL_ALL);
             request.getRequestDispatcher(INDEX_PATH).forward(request, response);
             
         }else{
@@ -128,11 +143,11 @@ public class Controller extends HttpServlet {
 
             if(identifiant!=null){
                 session.setAttribute(USER, identifiant);
-                session.setAttribute(EMPLOYES,employesDao.getAllEmployes() );
+                request.setAttribute(EMPLOYES,employesDao.getAllEmployes() );
                 request.getRequestDispatcher(WELCOME_PATH).forward(request, response);
             }
             else{
-                session.setAttribute(ERROR_MESSAGE, ERROR_MESSAGE_FAILURE);
+                request.setAttribute(ERROR_MESSAGE, ERROR_MESSAGE_FAILURE);
                 request.getRequestDispatcher(INDEX_PATH).forward(request, response);
             }
         }
@@ -185,7 +200,7 @@ public class Controller extends HttpServlet {
         }
         else{
             
-            request.getSession().setAttribute(TYPE_MESSAGE,0);
+            request.setAttribute(TYPE_MESSAGE,0);
             request.getRequestDispatcher(WELCOME_PATH).forward(request, response);
         }
     }
@@ -204,8 +219,8 @@ public class Controller extends HttpServlet {
         
         this.actionChoosed=1;
         
-        session.setAttribute(ACTION_CHOOSED,this.actionChoosed);
-        session.setAttribute(ERROR_MESSAGE_EMPLOYE,message);
+        request.setAttribute(ACTION_CHOOSED,this.actionChoosed);
+        request.setAttribute(ERROR_MESSAGE_EMPLOYE,message);
         
         if(message.equals(EMPTY_STRING)){
             session.setAttribute(EMPLOYE,employesDao.getEmploye(Integer.parseInt(request.getParameter(RADIOS_VALUE))));
@@ -302,9 +317,9 @@ public class Controller extends HttpServlet {
     private void redirectToEmployesView(HttpServletRequest request, HttpServletResponse response,int typeMessage)
             throws ServletException, IOException{
         
-        HttpSession session=request.getSession();
-        session.setAttribute(EMPLOYES, employesDao.getAllEmployes());
-        request.getSession().setAttribute(TYPE_MESSAGE,typeMessage);
+        request.getSession().removeAttribute(EMPLOYE);
+        request.setAttribute(EMPLOYES, employesDao.getAllEmployes());
+        request.setAttribute(TYPE_MESSAGE,typeMessage);
         request.getRequestDispatcher(WELCOME_PATH).forward(request, response);
         
     }
@@ -327,8 +342,8 @@ public class Controller extends HttpServlet {
         
         HttpSession session=request.getSession();
         
-        session.setAttribute(ACTION_CHOOSED,actionChoosed);
-        session.setAttribute("errorMessageEmploye", message);
+        request.setAttribute(ACTION_CHOOSED,actionChoosed);
+        request.setAttribute(ERROR_MESSAGE_EMPLOYE, message);
         
         if(!message.equals(EMPTY_STRING))//cela signifie qu'il s'est trompé donc on sauvegarde ce qu'il a déja ecris
             session.setAttribute(EMPLOYE,this.buildEmploye(request, actionChoosed, true));
