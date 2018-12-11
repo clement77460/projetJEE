@@ -45,6 +45,8 @@ public final class Constants {
                                                     "(+)le numéro de téléphonne doit être composé de 10 chiffres \n"+
                                                     "(+)l'Email de la forme xxx@xxx.xxx";
     public final static String ERROR_MESSAGE_BDD="la connexion avec la base de donnée a échoué";
+    public final static String ERROR_CREATION_EJB="l'objet métier n'a pas été instancié, attention, un champs est certainement trop grand (e-mail = 25 caractères) ..."+
+                                                    "il faudrait voir avec le dba pour agmenter la taille des champs";
     
     public final static String TYPE_MESSAGE="typeMessage";
     

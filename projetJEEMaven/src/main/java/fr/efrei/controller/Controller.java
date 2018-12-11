@@ -248,8 +248,13 @@ public class Controller extends HttpServlet {
         if(emp==null){
             this.redirectToInsertEmployeView(request, response, ERROR_MESSAGE_FORMAT);
         }else{
-            employesDao.insertEmploye(emp);
-            this.redirectToEmployesView(request, response,2);
+            try{
+                employesDao.insertEmploye(emp);
+                this.redirectToEmployesView(request, response,2);
+            }catch(javax.ejb.EJBException e){
+                this.redirectToInsertEmployeView(request, response, ERROR_CREATION_EJB);
+            }
+            
         }
         
     }
@@ -268,18 +273,26 @@ public class Controller extends HttpServlet {
         Employes emp=(Employes)session.getAttribute(EMPLOYE);
         
         Employes newEmp=this.buildEmploye(request, emp.getId(),false);
-        
-        if(newEmp==null){//erreur de formattage
-            session.setAttribute(EMPLOYE, this.buildEmploye(request, emp.getId(),true));
-            this.displayEmployeDetail(request, response, ERROR_MESSAGE_FORMAT);
-        
-        }else{
-            employesDao.updateEmploye(newEmp);
-            this.redirectToEmployesView(request, response,2);
+        try{
+            if(newEmp==null){//erreur de formattage
+                session.setAttribute(EMPLOYE, this.buildEmploye(request, emp.getId(),true));
+                this.displayEmployeDetail(request, response, ERROR_MESSAGE_FORMAT);
+
+            }else{
+
+                    employesDao.updateEmploye(newEmp);
+                    this.redirectToEmployesView(request, response,2);
+
+                    
+                }
+            }catch(javax.ejb.EJBException e){
+                session.setAttribute(EMPLOYE, this.buildEmploye(request, emp.getId(),true));
+                this.displayEmployeDetail(request, response,ERROR_CREATION_EJB );
+            }
         }
        
         
-    }
+    
     
     /**
      * Permet la création d'un objet de type Employes en verifiant bien que tout les champs correspondent
