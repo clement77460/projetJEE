@@ -25,10 +25,10 @@ import static fr.efrei.constants.Constants.*;
  */
 public class DataSources {
     
-    Statement stmt;
-    InputStream input;
-    Properties prop;
-    Connection dbConn;
+    private Statement stmt;
+    private InputStream input;
+    private Properties prop;
+    private Connection dbConn;
     
     public DataSources(){
         this.initClassLoader();

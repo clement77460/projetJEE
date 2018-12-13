@@ -8,6 +8,9 @@
 
 <!DOCTYPE html> 
 <html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
     <body>
 
         <div id="page-wrapper">
@@ -67,15 +70,15 @@
                                                 <c:forEach items="${ requestScope.employes }" var="employe" >
                                                     <tr> 
                                                     <td>  <INPUT TYPE="radio" NAME='radiosSelected' VALUE="${ employe.id }" CHECKED ></td>
-                                                    <td><c:out value="${ employe.nom }" /> !</td>
-                                                    <td><c:out value="${ employe.prenom }" /> !</td>
-                                                    <td><c:out value="${ employe.teldom }" /> !</td>
-                                                    <td><c:out value="${ employe.telport }" /> !</td>
-                                                    <td><c:out value="${ employe.telpro }" /> !</td>
-                                                    <td><c:out value="${ employe.adresse }" /> !</td>
-                                                    <td><c:out value="${ employe.codePostal }" /> !</td>
-                                                    <td><c:out value="${ employe.ville }" /> !</td>
-                                                    <td><c:out value="${ employe.email }" /> !</td>
+                                                    <td><c:out value="${ employe.nom }" /> </td>
+                                                    <td><c:out value="${ employe.prenom }" /> </td>
+                                                    <td><c:out value="${ employe.teldom }" /> </td>
+                                                    <td><c:out value="${ employe.telport }" /> </td>
+                                                    <td><c:out value="${ employe.telpro }" /> </td>
+                                                    <td><c:out value="${ employe.adresse }" /> </td>
+                                                    <td><c:out value="${ employe.codePostal }" /> </td>
+                                                    <td><c:out value="${ employe.ville }" /> </td>
+                                                    <td><c:out value="${ employe.email }" /> </td>
                                                     </tr>
                                                 </c:forEach> 
 

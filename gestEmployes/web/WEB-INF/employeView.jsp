@@ -26,35 +26,37 @@
               <label class="col-sm-1 col-form-label">Nom</label>
               <div class="col-sm-11">
                 <input type="text" class="form-control" placeholder="Nom" name='nom'
-                       value=<c:out value="${sessionScope.employe.nom}" default=""></c:out>>
+                       value="<c:out value="${sessionScope.employe.nom}" default=""></c:out>">
               </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-1 col-form-label">Prénom</label>
+              
               <div class="col-sm-11">
-                <input type="text" class="form-control" placeholder="Password" NAME='prenom'
-                       value=<c:out value="${sessionScope.employe.prenom}" default=""></c:out>>
+                <input type="text" class="form-control" placeholder="prenom" NAME='prenom'
+                       value="<c:out value="${sessionScope.employe.prenom}" default=""></c:out>"
+                </input>
               </div>
             </div>
              <div class="form-group row">
               <label class="col-sm-1 col-form-label">Tél dom</label>
               <div class="col-sm-11">
                 <input type="text" class="form-control" placeholder="Tél dom" NAME='telDom'
-                       value=<c:out value="${sessionScope.employe.teldom}" default=""></c:out>>
+                       value="<c:out value="${sessionScope.employe.teldom}" default=""></c:out>">
               </div>
             </div>
              <div class="form-group row">
               <label class="col-sm-1 col-form-label">Tél mob</label>
               <div class="col-sm-11">
                 <input type="text" class="form-control" placeholder="Tél mob" NAME='telMob'
-                       value=<c:out value="${sessionScope.employe.telport}" default=""></c:out>>
+                       value="<c:out value="${sessionScope.employe.telport}" default=""></c:out>">
               </div>
             </div>
              <div class="form-group row">
               <label class="col-sm-1 col-form-label">Tél pro</label>
               <div class="col-sm-11">
                 <input type="text" class="form-control" placeholder="Tél pro" NAME='telPro'
-                       value=<c:out value="${sessionScope.employe.telpro}" default=""></c:out>>
+                       value="<c:out value="${sessionScope.employe.telpro}" default=""></c:out>">
               </div>
             </div>
             
@@ -62,12 +64,12 @@
                 <label class="col-sm-1 col-form-label">Adresse</label>
                 <div class="col-sm-5">
                   <input type="text" class="form-control" placeholder="Adresse" NAME='adresse'
-                         value=<c:out value="${sessionScope.employe.adresse}" default=""></c:out>>
+                         value="<c:out value="${sessionScope.employe.adresse}" default=""></c:out>">
                 </div>
                 <label class="col-sm-1 col-form-label">code Postal</label>
                 <div class="col-sm-5">
                   <input type="text" class="form-control" placeholder="cp" NAME='codePostal'
-                         value=<c:out value="${sessionScope.employe.codePostal}" default=""></c:out>>
+                         value="<c:out value="${sessionScope.employe.codePostal}" default=""></c:out>">
                 </div>
               </div>
              
@@ -75,12 +77,12 @@
                 <label class="col-sm-1 col-form-label">Ville</label>
                 <div class="col-sm-5">
                   <input type="text" class="form-control" placeholder="Ville" NAME='ville'
-                         value=<c:out value="${sessionScope.employe.ville}" default=""></c:out>>
+                         value="<c:out value="${sessionScope.employe.ville}" default=""></c:out>">
                 </div>
                 <label class="col-sm-1 col-form-label">Adresse e-mail</label>
                 <div class="col-sm-5">
                   <input type="text" class="form-control" placeholder="e-mail" NAME='mail'
-                         value=<c:out value="${sessionScope.employe.email}" default=""></c:out>>
+                         value="<c:out value="${sessionScope.employe.email}" default=""></c:out>">
                 </div>
              </div>
              <div class="row justify-content-end">
