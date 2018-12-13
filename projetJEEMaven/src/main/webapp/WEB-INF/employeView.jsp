@@ -1,10 +1,10 @@
 <%-- 
     Document   : employeView
     Created on : 24 nov. 2018, 11:34:29
-    Author     : ClÃ©ment
+    Author     : Clément
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <body>
@@ -19,7 +19,7 @@
                 
                 
             </div>
-         <form method="POST" action="/projetJEEMaven">
+         <form method="POST" action="/projetJEEMaven" >
             <div class="form-group row">
               <label class="col-sm-1 col-form-label">Nom</label>
               <div class="col-sm-11">
@@ -28,30 +28,30 @@
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-1 col-form-label">PrÃ©nom</label>
+              <label class="col-sm-1 col-form-label">Prénom</label>
               <div class="col-sm-11">
-                <input type="text" class="form-control" placeholder="Password" NAME='prenom'
+                <input type="text" class="form-control" placeholder="prénom" NAME='prenom'
                        value="<c:out value="${sessionScope.employe.prenom}" default=""></c:out>">
               </div>
             </div>
              <div class="form-group row">
-              <label class="col-sm-1 col-form-label">TÃ©l dom</label>
+              <label class="col-sm-1 col-form-label">Tél dom</label>
               <div class="col-sm-11">
-                <input type="text" class="form-control" placeholder="TÃ©l dom" NAME='telDom'
+                <input type="text" class="form-control" placeholder="Tél dom" NAME='telDom'
                        value="<c:out value="${sessionScope.employe.teldom}" default=""></c:out>">
               </div>
             </div>
              <div class="form-group row">
-              <label class="col-sm-1 col-form-label">TÃ©l mob</label>
+              <label class="col-sm-1 col-form-label">Tél mob</label>
               <div class="col-sm-11">
-                <input type="text" class="form-control" placeholder="TÃ©l mob" NAME='telMob'
+                <input type="text" class="form-control" placeholder="Tél mob" NAME='telMob'
                        value="<c:out value="${sessionScope.employe.telport}" default=""></c:out>">
               </div>
             </div>
              <div class="form-group row">
-              <label class="col-sm-1 col-form-label">TÃ©l pro</label>
+              <label class="col-sm-1 col-form-label">Tél pro</label>
               <div class="col-sm-11">
-                <input type="text" class="form-control" placeholder="TÃ©l pro" NAME='telPro'
+                <input type="text" class="form-control" placeholder="Tél pro" NAME='telPro'
                        value="<c:out value="${sessionScope.employe.telpro}" default=""></c:out>">
               </div>
             </div>
