@@ -25,3 +25,4 @@ hs_err_pid*
 /gestEmployes/build/
 gestEmployes/src/java/fr/efrei/db\.properties
 /gestEmployes/dist/
+/projetJEEMaven/target/
